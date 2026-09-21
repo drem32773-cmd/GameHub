@@ -5,23 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>GameHub — платформа HTML-игр</title>
 <style>
-:root{
-  --bg:#0e1016; --bg2:#151925; --bg3:#1d2233; --line:#2a3145;
-  --txt:#e8ecf6; --muted:#8b94ad; --acc:#6c5ce7; --acc2:#00d2ff;
-  --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --r:14px;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-  background:var(--bg);color:var(--txt);min-height:100vh;
-  background-image:radial-gradient(circle at 15% -10%,rgba(108,92,231,.18),transparent 45%),
-                   radial-gradient(circle at 90% 0%,rgba(0,210,255,.10),transparent 40%);
-  background-attachment:fixed;
-}
-a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
-
+:root{--bg:#0e1016;--bg2:#151925;--bg3:#1d2233;--line:#2a3145;--txt:#e8ecf6;--muted:#8b94ad;--acc:#6c5ce7;--acc2:#00d2ff;--ok:#22c55e;--warn:#f59e0b;--err:#ef4444;--r:14px}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;
+background-image:radial-gradient(circle at 15% -10%,rgba(108,92,231,.18),transparent 45%),radial-gradient(circle at 90% 0%,rgba(0,210,255,.10),transparent 40%);background-attachment:fixed}
+a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
 .top{position:sticky;top:0;z-index:50;background:rgba(14,16,22,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .top-in{display:flex;align-items:center;gap:16px;height:66px}
 .logo{font-size:20px;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:9px;white-space:nowrap}
@@ -31,171 +19,66 @@ a{color:inherit}
 .search input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--txt);outline:none;font-size:14px;font-family:inherit;transition:.15s}
 .search input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(108,92,231,.15)}
 .nav{display:flex;gap:8px;margin-left:auto;align-items:center;flex-wrap:wrap}
-
-.btn{
-  padding:9px 16px;border-radius:10px;border:none;cursor:pointer;
-  background:linear-gradient(135deg,var(--acc),#8b7cf6);color:#fff;
-  font-weight:600;font-size:14px;font-family:inherit;transition:.15s;
-  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
-}
-.btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn.ghost{background:var(--bg3);color:var(--txt);border:1px solid var(--line)}
-.btn.ghost:hover{background:#252b3d;filter:none}
-.btn.ok{background:linear-gradient(135deg,#16a34a,#22c55e)}
-.btn.err{background:linear-gradient(135deg,#dc2626,#ef4444)}
-.btn.warn{background:linear-gradient(135deg,#d97706,#f59e0b)}
-.btn.sm{padding:6px 12px;font-size:13px;border-radius:8px}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.inp{
-  width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);
-  background:var(--bg2);color:var(--txt);outline:none;font-size:14px;
-  font-family:inherit;margin-bottom:14px;transition:.15s;
-}
+.btn{padding:9px 16px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--acc),#8b7cf6);color:#fff;font-weight:600;font-size:14px;font-family:inherit;transition:.15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{filter:brightness(1.15);transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+.btn.ghost{background:var(--bg3);color:var(--txt);border:1px solid var(--line)}.btn.ghost:hover{background:#252b3d;filter:none}
+.btn.ok{background:linear-gradient(135deg,#16a34a,#22c55e)}.btn.err{background:linear-gradient(135deg,#dc2626,#ef4444)}.btn.warn{background:linear-gradient(135deg,#d97706,#f59e0b)}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:8px}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.inp{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--txt);outline:none;font-size:14px;font-family:inherit;margin-bottom:14px;transition:.15s}
 .inp:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(108,92,231,.15)}
-textarea.inp{resize:vertical;min-height:80px}
-input[type=file].inp{padding:9px}
+textarea.inp{resize:vertical;min-height:80px}input[type=file].inp{padding:9px}
 label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px}
-
-main{padding:28px 0 70px}
-.muted{color:var(--muted);font-size:14px}
-h1{font-size:30px;margin:0 0 8px;letter-spacing:-.5px}
-h2{font-size:20px;margin:0}
-h3{font-size:17px;margin:0 0 10px}
-
-.hero{
-  background:linear-gradient(135deg,rgba(108,92,231,.16),rgba(0,210,255,.07));
-  border:1px solid var(--line);border-radius:20px;padding:34px 30px;margin-bottom:32px;
-}
-.hero h1{font-size:34px}
-.hero p{color:var(--muted);margin:0 0 20px;max-width:560px;line-height:1.55}
+main{padding:28px 0 70px}.muted{color:var(--muted);font-size:14px}
+h1{font-size:30px;margin:0 0 8px;letter-spacing:-.5px}h2{font-size:20px;margin:0}h3{font-size:17px;margin:0 0 10px}
+.hero{background:linear-gradient(135deg,rgba(108,92,231,.16),rgba(0,210,255,.07));border:1px solid var(--line);border-radius:20px;padding:34px 30px;margin-bottom:32px}
+.hero h1{font-size:34px}.hero p{color:var(--muted);margin:0 0 20px;max-width:560px;line-height:1.55}
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:18px}
-.card{
-  background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);
-  overflow:hidden;cursor:pointer;transition:.18s;display:flex;flex-direction:column;position:relative;
-}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.18s;display:flex;flex-direction:column;position:relative}
 .card:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 14px 32px rgba(108,92,231,.28)}
-.cover{
-  aspect-ratio:16/10;background:linear-gradient(135deg,#2b2350,#16233d);
-  display:flex;align-items:center;justify-content:center;
-  font-size:46px;font-weight:800;color:rgba(255,255,255,.22);overflow:hidden;
-}
+.cover{aspect-ratio:16/10;background:linear-gradient(135deg,#2b2350,#16233d);display:flex;align-items:center;justify-content:center;font-size:46px;font-weight:800;color:rgba(255,255,255,.22);overflow:hidden}
 .cover img{width:100%;height:100%;object-fit:cover;display:block}
-.card-body{padding:12px 14px 14px}
-.card-title{font-weight:700;font-size:15px;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card-meta{color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:8px}
-.card-meta .saved{color:#a89bff;font-weight:700}
-
-.empty{
-  text-align:center;padding:60px 20px;color:var(--muted);font-size:16px;
-  border:1px dashed var(--line);border-radius:var(--r);background:rgba(21,25,37,.5);
-}
-
-.panel{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:26px;max-width:640px}
-.panel.wide{max-width:none}
-
+.card-body{padding:12px 14px 14px}.card-title{font-weight:700;font-size:15px;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-meta{color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:8px}.card-meta .saved{color:#a89bff;font-weight:700}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:16px;border:1px dashed var(--line);border-radius:var(--r);background:rgba(21,25,37,.5)}
+.panel{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:26px;max-width:640px}.panel.wide{max-width:none}
 .game-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:18px 0 14px;flex-wrap:wrap}
-.game-frame{
-  width:100%;height:70vh;min-height:420px;border-radius:var(--r);overflow:hidden;
-  border:1px solid var(--line);background:#000;
-}
-.game-frame iframe{width:100%;height:100%;border:0;display:block;background:#000}
-.game-frame:fullscreen{border-radius:0;height:100vh}
-.game-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-.desc{color:var(--muted);line-height:1.6;margin-top:18px;white-space:pre-wrap}
-
-.progress-bar{
-  display:flex;align-items:center;gap:12px;margin-top:16px;padding:13px 16px;
-  border-radius:11px;font-size:13.5px;flex-wrap:wrap;
-  background:rgba(108,92,231,.10);border:1px solid rgba(108,92,231,.30);
-  transition:.3s;
-}
+.game-frame{width:100%;height:70vh;min-height:420px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#000}
+.game-frame iframe{width:100%;height:100%;border:0;display:block;background:#000}.game-frame:fullscreen{border-radius:0;height:100vh}
+.game-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.desc{color:var(--muted);line-height:1.6;margin-top:18px;white-space:pre-wrap}
+.progress-bar{display:flex;align-items:center;gap:12px;margin-top:16px;padding:13px 16px;border-radius:11px;font-size:13.5px;flex-wrap:wrap;background:rgba(108,92,231,.10);border:1px solid rgba(108,92,231,.30);transition:.3s}
 .progress-bar.flash{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.5)}
-.progress-bar .icon{font-size:18px}
-.progress-bar .txt{flex:1;min-width:180px;line-height:1.45}
-.progress-bar code{
-  background:rgba(0,0,0,.32);padding:2px 6px;border-radius:4px;font-size:12.5px;
-  font-family:ui-monospace,Consolas,monospace;
-}
+.progress-bar .icon{font-size:18px}.progress-bar .txt{flex:1;min-width:180px;line-height:1.45}
+.progress-bar code{background:rgba(0,0,0,.32);padding:2px 6px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace}
 .progress-bar.guest{background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.35)}
-
 .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
-.badge.pending{background:rgba(245,158,11,.16);color:#fbbf24}
-.badge.approved{background:rgba(34,197,94,.16);color:#4ade80}
-.badge.rejected{background:rgba(239,68,68,.16);color:#f87171}
-.badge.dev{background:rgba(108,92,231,.2);color:#a89bff}
-
-.auth-wrap{display:flex;justify-content:center;padding-top:20px}
-.auth{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:30px}
+.badge.pending{background:rgba(245,158,11,.16);color:#fbbf24}.badge.approved{background:rgba(34,197,94,.16);color:#4ade80}
+.badge.rejected{background:rgba(239,68,68,.16);color:#f87171}.badge.dev{background:rgba(108,92,231,.2);color:#a89bff}
+.auth-wrap{display:flex;justify-content:center;padding-top:20px}.auth{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:30px}
 .tabs{display:flex;gap:6px;background:var(--bg3);padding:5px;border-radius:11px;margin-bottom:22px}
-.tabs button{
-  flex:1;padding:9px;border:none;background:transparent;color:var(--muted);
-  border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;font-family:inherit;transition:.15s;
-}
+.tabs button{flex:1;padding:9px;border:none;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;font-family:inherit;transition:.15s}
 .tabs button.active{background:var(--acc);color:#fff}
-
-.dev-item{
-  background:var(--bg2);border:1px solid var(--line);border-radius:12px;
-  padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;
-}
-.dev-item .cover-mini{
-  width:78px;height:58px;border-radius:9px;flex-shrink:0;overflow:hidden;
-  background:linear-gradient(135deg,#2b2350,#16233d);display:flex;align-items:center;
-  justify-content:center;font-weight:800;color:rgba(255,255,255,.25);font-size:22px;
-}
+.dev-item{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start}
+.dev-item .cover-mini{width:78px;height:58px;border-radius:9px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#2b2350,#16233d);display:flex;align-items:center;justify-content:center;font-weight:800;color:rgba(255,255,255,.25);font-size:22px}
 .dev-item .cover-mini img{width:100%;height:100%;object-fit:cover}
-.dev-item-info{flex:1;min-width:0}
-.dev-item-info .t{font-weight:700;margin-bottom:4px}
+.dev-item-info{flex:1;min-width:0}.dev-item-info .t{font-weight:700;margin-bottom:4px}
 .dev-item-info .d{color:var(--muted);font-size:13px;line-height:1.5;margin-top:6px;word-break:break-word}
 .dev-item-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
-
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
-th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-tr:last-child td{border-bottom:none}
-
-.overlay{
-  position:fixed;inset:0;background:rgba(5,6,10,.75);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;
-  animation:fade .18s ease;
-}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}tr:last-child td{border-bottom:none}
+.overlay{position:fixed;inset:0;background:rgba(5,6,10,.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;animation:fade .18s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.modal{
-  background:var(--bg2);border:1px solid var(--line);border-radius:18px;
-  padding:28px;width:100%;max-width:420px;animation:pop .2s ease;
-  box-shadow:0 24px 70px rgba(0,0,0,.6);
-}
+.modal{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:28px;width:100%;max-width:420px;animation:pop .2s ease;box-shadow:0 24px 70px rgba(0,0,0,.6)}
 @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
-
 .toasts{position:fixed;bottom:22px;right:22px;z-index:300;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
-.toast{
-  background:var(--bg3);border:1px solid var(--line);border-left:4px solid var(--acc);
-  padding:13px 18px;border-radius:11px;font-size:14px;font-weight:600;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);transition:.3s;max-width:330px;
-  animation:slideIn .25s ease;
-}
+.toast{background:var(--bg3);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:11px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);transition:.3s;max-width:330px;animation:slideIn .25s ease}
 @keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
-.toast.ok{border-left-color:var(--ok)}
-.toast.err{border-left-color:var(--err)}
-.toast.warn{border-left-color:var(--warn)}
-
-.notice{
-  background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.35);
-  color:#b6adff;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:20px;
-}
-
-@media(max-width:760px){
-  .top-in{height:auto;padding:12px 0;flex-wrap:wrap}
-  .search{order:3;max-width:none;flex-basis:100%}
-  .nav{margin-left:0}
-  .hero{padding:26px 20px}
-  .hero h1{font-size:26px}
-  .dev-item{flex-direction:column}
-  .dev-item-actions{justify-content:flex-start}
-}
+.toast.ok{border-left-color:var(--ok)}.toast.err{border-left-color:var(--err)}.toast.warn{border-left-color:var(--warn)}
+.notice{background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.35);color:#b6adff;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:20px}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:760px){.top-in{height:auto;padding:12px 0;flex-wrap:wrap}.search{order:3;max-width:none;flex-basis:100%}.nav{margin-left:0}.hero{padding:26px 20px}.hero h1{font-size:26px}.dev-item{flex-direction:column}.dev-item-actions{justify-content:flex-start}}
 </style>
 </head>
 <body>
@@ -216,481 +99,327 @@ tr:last-child td{border-bottom:none}
 <div class="toasts" id="toasts"></div>
 <div id="modalRoot"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =========================================================
-   GameHub — платформа HTML-игр
-   Прогресс сохраняется per-account через localStorage.
-   API игры: GameHub.save(obj) / GameHub.load(cb) / GameHub.reset()
+   ⚠️ ВПИШИ СВОИ ДАННЫЕ ИЗ SUPABASE (Project Settings → API)
    ========================================================= */
+const SUPABASE_URL      = 'https://ВСТАВЬ_СВОЙ_URL.supabase.co';
+const SUPABASE_ANON_KEY = 'ВСТАВЬ_СВОЙ_ANON_KEY';
 
 const DEV_PASSWORD   = '1210002341';
 const MAX_HTML_SIZE  = 3 * 1024 * 1024;
 const MAX_COVER_SIZE = 400 * 1024;
 
-const LS = {
-  get(k, def){
-    try{ const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); }
-    catch(e){ return def; }
-  },
-  set(k, v){
-    try{ localStorage.setItem(k, JSON.stringify(v)); return true; }
-    catch(e){ return false; }
-  }
-};
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+/* ---------- состояние ---------- */
 const state = {
-  users:   LS.get('gh_users', []),
-  games:   LS.get('gh_games', []),
-  session: LS.get('gh_session', null),
+  user:    null,   // { id, email, username, is_dev }
+  games:   [],
   view:    'catalog',
   current: null,
   search:  '',
   devTab:  'pending',
-  authTab: 'login'
+  authTab: 'login',
+  ready:   false
 };
 
-let currentBlobUrl = null;
-
-function saveUsers(){ if(!LS.set('gh_users', state.users)) toast('Не удалось сохранить данные', 'err'); }
-function saveGames(){ if(!LS.set('gh_games', state.games)) toast('Не удалось сохранить данные', 'err'); }
+let currentGameHtml = '';
 
 /* ---------- утилиты ---------- */
-function esc(s){
-  return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
-    {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
-  ));
-}
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
-function hash(str){
-  let h = 0;
-  for (let i = 0; i < str.length; i++){ h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
-  return 'h' + Math.abs(h).toString(36) + '_' + str.length;
-}
-function fmtDate(ts){
-  return new Date(ts).toLocaleDateString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric'});
-}
-function me(){ return state.users.find(u => u.id === state.session) || null; }
-function getGame(id){ return state.games.find(g => g.id === id) || null; }
-function isDev(){ const u = me(); return !!(u && u.isDev); }
-function plural(n, one, few, many){
-  const m10 = n % 10, m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return one;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
-  return many;
-}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(ts){return new Date(ts).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function plural(n,one,few,many){const m10=n%10,m100=n%100;if(m10===1&&m100!==11)return one;if(m10>=2&&m10<=4&&(m100<10||m100>=20))return few;return many;}
+function usernameToEmail(u){return u.toLowerCase().trim()+'@gamehub.local';}
 
-function toast(msg, type){
-  type = type || 'ok';
-  const box = document.getElementById('toasts');
-  const t = document.createElement('div');
-  t.className = 'toast ' + type;
-  t.textContent = msg;
+function toast(msg,type){
+  type=type||'ok';
+  const box=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className='toast '+type;t.textContent=msg;
   box.appendChild(t);
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(24px)';
-    setTimeout(() => t.remove(), 320);
-  }, 2700);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(24px)';setTimeout(()=>t.remove(),320);},2700);
 }
-
 function openModal(html){
-  document.getElementById('modalRoot').innerHTML =
-    '<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="modal">' + html + '</div></div>';
+  document.getElementById('modalRoot').innerHTML=
+    '<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="modal">'+html+'</div></div>';
 }
-function closeModal(){ document.getElementById('modalRoot').innerHTML = ''; }
+function closeModal(){document.getElementById('modalRoot').innerHTML='';}
 
 /* =========================================================
-   ПРОГРЕСС — прямое чтение/запись в localStorage
-   (iframe грузится с allow-same-origin, поэтому origin общий)
+   ЗАГРУЗКА ДАННЫХ ИЗ SUPABASE
    ========================================================= */
-function progressKey(userId, gameId){ return 'gh_progress_' + userId + '_' + gameId; }
-
-function hasProgress(gameId){
-  const u = me();
-  if (!u) return false;
-  try{ return localStorage.getItem(progressKey(u.id, gameId)) !== null; }
-  catch(e){ return false; }
+async function loadGames(){
+  const { data, error } = await sb.from('games').select('*').order('created_at',{ascending:false});
+  if (error){ console.error(error); toast('Ошибка загрузки игр','err'); return; }
+  state.games = data || [];
 }
 
-function loadProgress(gameId){
-  const u = me();
-  if (!u) return null;
-  try{
-    const raw = localStorage.getItem(progressKey(u.id, gameId));
-    return raw === null ? null : JSON.parse(raw);
-  }catch(e){ return null; }
+async function loadProfile(userId){
+  const { data } = await sb.from('profiles').select('*').eq('id',userId).single();
+  return data;
 }
 
-function saveProgress(gameId, data){
-  const u = me();
-  if (!u) return false;
-  try{
-    localStorage.setItem(progressKey(u.id, gameId), JSON.stringify(data));
-    return true;
-  }catch(e){ return false; }
-}
-
-function resetProgress(gameId){
-  const u = me();
-  if (!u) return false;
-  try{ localStorage.removeItem(progressKey(u.id, gameId)); return true; }
-  catch(e){ return false; }
-}
-
-/* ---------- сборка скрипта-API для игры ---------- */
-function buildApiScript(userId, gameId){
-  const key = userId ? progressKey(userId, gameId) : '';
-  const s = [
-    '<script>',
-    '(function(){',
-    '  var USER_ID = ' + JSON.stringify(userId) + ';',
-    '  var GAME_ID = ' + JSON.stringify(gameId) + ';',
-    '  var KEY = ' + JSON.stringify(key) + ';',
-    '  function notify(type, detail){',
-    '    try{ window.parent.postMessage({source:"gamehub",type:type,gameId:GAME_ID,detail:detail},"*"); }catch(e){}',
-    '  }',
-    '  var api = {',
-    '    userId: USER_ID,',
-    '    gameId: GAME_ID,',
-    '    isLoggedIn: !!USER_ID,',
-    '    save: function(data){',
-    '      if(!USER_ID){ console.warn("GameHub: сохранение недоступно (не выполнен вход)"); return false; }',
-    '      try{',
-    '        localStorage.setItem(KEY, JSON.stringify(data));',
-    '        notify("save", data);',
-    '        return true;',
-    '      }catch(e){ console.error("GameHub save error:", e); return false; }',
-    '    },',
-    '    load: function(cb){',
-    '      var data = null;',
-    '      if(USER_ID){',
-    '        try{',
-    '          var raw = localStorage.getItem(KEY);',
-    '          data = raw === null ? null : JSON.parse(raw);',
-    '        }catch(e){ console.error("GameHub load error:", e); }',
-    '      }',
-    '      if(typeof cb === "function"){ try{ cb(data); }catch(e){ console.error(e); } }',
-    '      notify("load", data);',
-    '      return data;',
-    '    },',
-    '    reset: function(){',
-    '      if(!USER_ID) return false;',
-    '      try{ localStorage.removeItem(KEY); notify("reset", null); return true; }',
-    '      catch(e){ return false; }',
-    '    }',
-    '  };',
-    '  window.GameHub = api;',
-    '  window.dispatchEvent(new Event("gamehub-ready"));',
-    '})();',
-    '<\/script>'
-  ].join('\n');
-  return s;
-}
-
-function buildGameSrc(html, userId, gameId){
-  const api = buildApiScript(userId, gameId);
-  let out = html;
-  if (/<head[^>]*>/i.test(out)){
-    out = out.replace(/<head[^>]*>/i, m => m + '\n' + api);
-  } else if (/<html[^>]*>/i.test(out)){
-    out = out.replace(/<html[^>]*>/i, m => m + '<head>' + api + '</head>');
-  } else {
-    out = api + out;
+async function refreshUser(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if (!session){
+    state.user = null;
+    return;
   }
-  return URL.createObjectURL(new Blob([out], {type:'text/html'}));
+  const profile = await loadProfile(session.user.id);
+  state.user = {
+    id: session.user.id,
+    email: session.user.email,
+    username: profile ? profile.username : session.user.email.split('@')[0],
+    is_dev: profile ? profile.is_dev : false
+  };
 }
 
-/* ---------- уведомления от игр (только для UI) ---------- */
-window.addEventListener('message', function(e){
+/* =========================================================
+   ПРОГРЕСС
+   ========================================================= */
+async function hasProgress(gameId){
+  if (!state.user) return false;
+  const { data } = await sb.from('progress').select('game_id').eq('user_id',state.user.id).eq('game_id',gameId).maybeSingle();
+  return !!data;
+}
+
+async function loadProgress(gameId){
+  if (!state.user) return null;
+  const { data } = await sb.from('progress').select('data').eq('user_id',state.user.id).eq('game_id',gameId).maybeSingle();
+  return data ? data.data : null;
+}
+
+async function saveProgress(gameId, value){
+  if (!state.user) return false;
+  const { error } = await sb.from('progress').upsert({
+    user_id: state.user.id, game_id: gameId, data: value, updated_at: new Date().toISOString()
+  }, { onConflict: 'user_id,game_id' });
+  return !error;
+}
+
+async function resetProgressDb(gameId){
+  if (!state.user) return false;
+  const { error } = await sb.from('progress').delete().eq('user_id',state.user.id).eq('game_id',gameId);
+  return !error;
+}
+
+/* =========================================================
+   API ДЛЯ ИГР (postMessage)
+   ========================================================= */
+window.addEventListener('message', async (e) => {
   const m = e.data;
   if (!m || m.source !== 'gamehub') return;
-  if (m.gameId !== state.current) return;
+  if (m.gameId && m.gameId !== state.current) return;
 
-  const u = me();
-  if (m.type === 'save' && u){
+  const frame = document.getElementById('gameFrame');
+  if (!frame || e.source !== frame.contentWindow) return;
+
+  if (m.type === 'load'){
+    const data = state.user ? await loadProgress(state.current) : null;
+    try{ e.source.postMessage({source:'gamehub-parent',type:'progress',cbId:m.cbId,data:data},'*'); }catch(_){}
+    return;
+  }
+  if (m.type === 'save' && state.user){
+    await saveProgress(state.current, m.data);
     updateProgressBar(true);
-  } else if (m.type === 'reset' && u){
+  } else if (m.type === 'reset' && state.user){
+    await resetProgressDb(state.current);
     updateProgressBar(false);
-    toast('Прогресс сброшен', 'warn');
+    toast('Прогресс сброшен','warn');
   }
 });
 
 function updateProgressBar(saved){
   const bar = document.getElementById('progressBar');
-  if (!bar) return;
-  const u = me();
-  if (!u) return;
+  if (!bar || !state.user) return;
   bar.classList.add('flash');
-  setTimeout(() => bar.classList.remove('flash'), 800);
-  const status = bar.querySelector('.status');
-  if (status) status.innerHTML = saved
-    ? '✅ Прогресс сохранён только что.'
-    : 'ℹ️ Прогресс пуст — начните играть!';
+  setTimeout(()=>bar.classList.remove('flash'),800);
+  const st = bar.querySelector('.status');
+  if (st) st.textContent = saved ? '✅ Прогресс сохранён.' : 'ℹ️ Прогресс пуст — начните играть!';
 }
 
-/* =========================================================
-   ДЕМО-ИГРА
-   ========================================================= */
-const DEMO_HTML = [
-'<!DOCTYPE html>',
-'<html><head><meta charset="utf-8"><title>Быстрая реакция</title><style>',
-'body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;',
-'background:radial-gradient(circle at 50% 30%,#241b47,#0b0d13);color:#e8ecf6;',
-'font-family:system-ui,sans-serif;user-select:none;overflow:hidden;position:relative}',
-'h1{font-size:22px;margin:0 0 6px}p{color:#8b94ad;margin:0 0 14px;font-size:14px}',
-'#target{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#00d2ff);',
-'display:flex;align-items:center;justify-content:center;font-size:34px;cursor:pointer;',
-'transition:transform .08s;box-shadow:0 0 40px rgba(108,92,231,.6);position:absolute}',
-'#target:active{transform:scale(.9)}',
-'.row{display:flex;gap:30px;margin-top:26px;font-size:14px;color:#8b94ad;text-align:center}',
-'.row b{display:block;font-size:24px;color:#fff;margin-top:2px}',
-'.hint{margin-top:16px;font-size:12px;color:#5a6480;text-align:center;max-width:320px}',
-'.saved{color:#4ade80 !important;transition:.2s}',
-'</style></head><body>',
-'<h1>Быстрая реакция</h1><p>Кликай по кругу — очки сохраняются сразу!</p>',
-'<div id="target">🎯</div>',
-'<div class="row"><div>Очки<b id="score">0</b></div><div>Рекорд<b id="hi">0</b></div></div>',
-'<div class="hint" id="hint">Прогресс сохраняется в аккаунте автоматически</div>',
-'<scr'+'ipt>',
-'var score=0,hi=0;',
-'var t=document.getElementById("target"),s=document.getElementById("score"),',
-'    h=document.getElementById("hi"),hint=document.getElementById("hint");',
-'function flashSaved(){',
-'  hint.textContent="💾 Сохранено!";',
-'  hint.classList.add("saved");',
-'  setTimeout(function(){hint.textContent="Прогресс сохраняется в аккаунте автоматически";',
-'    hint.classList.remove("saved");},900);',
-'}',
-'function push(){',
-'  if(window.GameHub&&window.GameHub.save){',
-'    var ok=window.GameHub.save({highScore:hi,totalScore:score});',
-'    if(ok)flashSaved();',
-'  }',
-'}',
-'function move(){t.style.left=(15+Math.random()*70)+"%";t.style.top=(25+Math.random()*55)+"%";}',
-'function boot(){',
-'  if(window.GameHub&&window.GameHub.load){',
-'    window.GameHub.load(function(d){',
-'      if(d&&typeof d.highScore==="number"){hi=d.highScore;h.textContent=hi;}',
-'    });',
-'  }',
-'}',
-'if(window.GameHub)boot();',
-'else window.addEventListener("gamehub-ready",boot);',
-'t.onclick=function(){',
-'  score++;s.textContent=score;',
-'  if(score>hi){hi=score;h.textContent=hi;push();}',
-'  move();',
-'};',
-'move();',
-'</scr'+'ipt></body></html>'
-].join('\n');
-
-function seed(){
-  if (state.games.length === 0){
-    const id = 'demo' + uid();
-    state.games.push({
-      id: id, title: 'Быстрая реакция',
-      desc: 'Демо-игра: кликай по кругу и набирай очки. Рекорд сохраняется сразу при каждом новом достижении.',
-      author: 'GameHub', authorId: null, cover: '',
-      status: 'approved', plays: 0, createdAt: Date.now()
-    });
-    try{ localStorage.setItem('gh_html_' + id, DEMO_HTML); }catch(e){}
-    saveGames();
-  }
+/* Внедряем API-скрипт в HTML игры */
+function buildGameSrc(html, userId, gameId){
+  const api =
+    '<scr'+'ipt>(function(){' +
+      'var U='+JSON.stringify(userId)+',G='+JSON.stringify(gameId)+',c=0,p={};' +
+      'window.GameHub={' +
+        'userId:U,gameId:G,isLoggedIn:!!U,' +
+        'save:function(d){if(!U)return false;try{window.parent.postMessage({source:"gamehub",type:"save",gameId:G,data:d},"*");return true;}catch(e){return false;}},' +
+        'load:function(cb){if(typeof cb!=="function")return;var id=++c;p[id]=cb;try{window.parent.postMessage({source:"gamehub",type:"load",gameId:G,cbId:id},"*");}catch(e){}},' +
+        'reset:function(){if(!U)return false;try{window.parent.postMessage({source:"gamehub",type:"reset",gameId:G},"*");return true;}catch(e){return false;}}' +
+      '};' +
+      'window.addEventListener("message",function(e){var m=e.data;if(!m||m.source!=="gamehub-parent")return;' +
+        'if(m.type==="progress"&&p[m.cbId]){var cb=p[m.cbId];delete p[m.cbId];cb(m.data);}});' +
+      'window.dispatchEvent(new Event("gamehub-ready"));' +
+    '<\/scr'+'ipt>';
+  let out = html;
+  if (/<head[^>]*>/i.test(out)) out = out.replace(/<head[^>]*>/i, m=>m+api);
+  else if (/<html[^>]*>/i.test(out)) out = out.replace(/<html[^>]*>/i, m=>m+'<head>'+api+'</head>');
+  else out = api + out;
+  return URL.createObjectURL(new Blob([out],{type:'text/html'}));
 }
-seed();
 
 /* =========================================================
    НАВИГАЦИЯ
    ========================================================= */
 function go(view, param){
-  if (view === 'game') state.current = param;
+  if (view==='game') state.current = param;
   state.view = view;
   render();
 }
-
 function onSearch(v){
   state.search = v;
-  if (state.view !== 'catalog'){ state.view = 'catalog'; render(); }
+  if (state.view !== 'catalog'){ state.view='catalog'; render(); }
   else renderCatalog(document.getElementById('app'));
 }
 
 function renderNav(){
-  const u = me();
+  const u = state.user;
   const nav = document.getElementById('nav');
   const si = document.getElementById('searchInput');
   if (si.value !== state.search) si.value = state.search;
-
   let html = '<button class="btn ghost sm" onclick="go(\'catalog\')">🏠 Каталог</button>';
   html += '<button class="btn sm" onclick="go(\'upload\')">➕ Загрузить</button>';
-
   if (u){
-    if (u.isDev) html += '<button class="btn warn sm" onclick="go(\'dev\')">🛠 Разработчик</button>';
-    html += '<button class="btn ghost sm" onclick="go(\'profile\')">👤 ' + esc(u.login) + '</button>';
+    if (u.is_dev) html += '<button class="btn warn sm" onclick="go(\'dev\')">🛠 Разработчик</button>';
+    html += '<button class="btn ghost sm" onclick="go(\'profile\')">👤 '+esc(u.username)+'</button>';
   } else {
     html += '<button class="btn ghost sm" onclick="go(\'auth\')">Войти</button>';
   }
   nav.innerHTML = html;
 }
 
-function render(){
-  renderNav();
-  if (currentBlobUrl){ URL.revokeObjectURL(currentBlobUrl); currentBlobUrl = null; }
+async function render(){
   const app = document.getElementById('app');
-
+  if (!state.ready){ app.innerHTML='<div class="empty"><span class="spinner"></span> Загрузка...</div>'; return; }
+  renderNav();
   switch (state.view){
-    case 'catalog': renderCatalog(app); break;
-    case 'game':    renderGame(app);    break;
-    case 'upload':  renderUpload(app);  break;
-    case 'auth':    renderAuth(app);    break;
-    case 'profile': renderProfile(app); break;
-    case 'dev':     renderDev(app);     break;
-    default:        renderCatalog(app);
+    case 'catalog': await renderCatalog(app); break;
+    case 'game':    await renderGame(app);    break;
+    case 'upload':  renderUpload(app);        break;
+    case 'auth':    renderAuth(app);          break;
+    case 'profile': await renderProfile(app); break;
+    case 'dev':     await renderDev(app);     break;
+    default:        await renderCatalog(app);
   }
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 /* =========================================================
    КАТАЛОГ
    ========================================================= */
-function cardHTML(g){
-  const cover = g.cover
-    ? '<img src="' + g.cover + '" alt="">'
-    : esc((g.title[0] || '?').toUpperCase());
-  const saved = hasProgress(g.id) ? '<span class="saved">💾</span>' : '';
-  return '<div class="card" onclick="openGame(\'' + g.id + '\')">' +
-      '<div class="cover">' + cover + '</div>' +
-      '<div class="card-body">' +
-        '<div class="card-title">' + esc(g.title) + '</div>' +
-        '<div class="card-meta"><span>' + esc(g.author) + '</span>' +
-          '<span>' + saved + ' 🎮 ' + (g.plays || 0) + '</span></div>' +
-      '</div>' +
-    '</div>';
-}
+async function renderCatalog(app){
+  const q = (state.search||'').trim().toLowerCase();
+  let list = state.games.filter(g => g.status==='approved');
+  if (q) list = list.filter(g => g.title.toLowerCase().includes(q) || g.author_name.toLowerCase().includes(q));
 
-function renderCatalog(app){
-  const q = (state.search || '').trim().toLowerCase();
-  let list = state.games.filter(g => g.status === 'approved');
-  if (q){
-    list = list.filter(g =>
-      g.title.toLowerCase().includes(q) || g.author.toLowerCase().includes(q)
-    );
+  // Загружаем прогресс для отображения значка 💾
+  const savedIds = new Set();
+  if (state.user){
+    const { data } = await sb.from('progress').select('game_id').eq('user_id', state.user.id);
+    (data||[]).forEach(r => savedIds.add(r.game_id));
   }
-  list.sort((a, b) => b.createdAt - a.createdAt);
 
-  const u = me();
+  const cards = list.map(g => {
+    const cover = g.cover_url ? '<img src="'+g.cover_url+'" alt="">' : esc((g.title[0]||'?').toUpperCase());
+    const saved = savedIds.has(g.id) ? '<span class="saved">💾</span>' : '';
+    return '<div class="card" onclick="openGame(\''+g.id+'\')">' +
+      '<div class="cover">'+cover+'</div>' +
+      '<div class="card-body">' +
+        '<div class="card-title">'+esc(g.title)+'</div>' +
+        '<div class="card-meta"><span>'+esc(g.author_name)+'</span><span>'+saved+' 🎮 '+(g.plays||0)+'</span></div>' +
+      '</div></div>';
+  }).join('');
 
   app.innerHTML =
     '<div class="hero">' +
       '<h1>Играй в <span class="grad">HTML-игры</span></h1>' +
-      '<p>Публикуй свои игры и играй в игры других пользователей — всё работает прямо в браузере. ' +
-        'Твой прогресс сохраняется в аккаунте.</p>' +
+      '<p>Публикуй свои игры и играй в игры других — всё в браузере. Прогресс сохраняется в аккаунте и доступен с любого устройства.</p>' +
       '<button class="btn" onclick="go(\'upload\')">➕ Загрузить свою игру</button>' +
     '</div>' +
-    (u ? '' :
-      '<div class="notice">🔐 <b>Войдите в аккаунт</b>, чтобы прогресс в играх сохранялся автоматически. ' +
+    (state.user ? '' :
+      '<div class="notice">🔐 <b>Войдите в аккаунт</b>, чтобы прогресс сохранялся и был доступен с любого устройства. ' +
         '<a href="#" onclick="go(\'auth\');return false" style="color:#a89bff;text-decoration:underline">Войти или зарегистрироваться →</a></div>') +
-    '<div class="sec-head">' +
-      '<h2>' + (q ? 'Результаты поиска' : 'Все игры') + '</h2>' +
-      '<span class="muted">' + list.length + ' ' + plural(list.length, 'игра', 'игры', 'игр') + '</span>' +
-    '</div>' +
-    (list.length
-      ? '<div class="grid">' + list.map(cardHTML).join('') + '</div>'
-      : '<div class="empty">😕 ' + (q ? 'Ничего не найдено' : 'Игр пока нет — стань первым!') + '</div>');
+    '<div class="sec-head"><h2>'+(q?'Результаты поиска':'Все игры')+'</h2>' +
+      '<span class="muted">'+list.length+' '+plural(list.length,'игра','игры','игр')+'</span></div>' +
+    (list.length ? '<div class="grid">'+cards+'</div>'
+                 : '<div class="empty">😕 '+(q?'Ничего не найдено':'Игр пока нет — стань первым!')+'</div>');
 }
 
 /* =========================================================
    ИГРА
    ========================================================= */
-function openGame(id){
-  const g = getGame(id);
-  if (!g) return toast('Игра не найдена', 'err');
-  g.plays = (g.plays || 0) + 1;
-  saveGames();
+async function openGame(id){
+  const g = state.games.find(x=>x.id===id);
+  if (!g) return toast('Игра не найдена','err');
+  // +1 к проcмотрам (не критично если не получится)
+  sb.from('games').update({plays:(g.plays||0)+1}).eq('id',id).then(()=>{});
   go('game', id);
 }
 
-function renderGame(app){
-  const g = getGame(state.current);
-  if (!g){ state.view = 'catalog'; return render(); }
+async function renderGame(app){
+  const g = state.games.find(x=>x.id===state.current);
+  if (!g){ state.view='catalog'; return render(); }
 
-  const u = me();
-  const hasProg = hasProgress(g.id);
-
-  const html = localStorage.getItem('gh_html_' + g.id) ||
-    '<h1 style="font-family:sans-serif;color:#fff;padding:20px">Файл игры не найден</h1>';
-
-  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-  currentBlobUrl = buildGameSrc(html, u ? u.id : null, g.id);
-
-  const progressBar = u
-    ? '<div class="progress-bar" id="progressBar">' +
-        '<span class="icon">💾</span>' +
-        '<div class="txt">' +
-          '<b>' + esc(u.login) + '</b>, прогресс сохраняется автоматически. ' +
-          '<span class="status">' +
-            (hasProg ? '✅ У вас есть сохранённые данные.' : 'Пока пусто — начните играть!') +
-          '</span>' +
-          (isDev()
-            ? '<div class="muted" style="font-size:12px;margin-top:5px">API: ' +
-                '<code>GameHub.save(obj)</code> · <code>GameHub.load(cb)</code> · <code>GameHub.reset()</code></div>'
-            : '') +
-        '</div>' +
-      '</div>'
-    : '<div class="progress-bar guest">' +
-        '<span class="icon">⚠️</span>' +
-        '<div class="txt"><b>Вы не вошли в аккаунт.</b> Прогресс не будет сохраняться. ' +
-          '<a href="#" onclick="go(\'auth\');return false" style="color:#a89bff;text-decoration:underline">Войти →</a></div>' +
-      '</div>';
+  const u = state.user;
+  const hasProg = u ? await hasProgress(g.id) : false;
 
   app.innerHTML =
     '<button class="btn ghost sm" onclick="go(\'catalog\')">← Назад в каталог</button>' +
-    '<div class="game-head">' +
-      '<div><h1>' + esc(g.title) + '</h1>' +
-      '<div class="muted">от <b>' + esc(g.author) + '</b> · ' + (g.plays || 0) + ' запусков · ' + fmtDate(g.createdAt) + '</div></div>' +
-    '</div>' +
+    '<div class="game-head"><div><h1>'+esc(g.title)+'</h1>' +
+      '<div class="muted">от <b>'+esc(g.author_name)+'</b> · '+(g.plays||0)+' запусков · '+fmtDate(g.created_at)+'</div></div></div>' +
     '<div class="game-frame" id="frameBox">' +
-      '<iframe id="gameFrame" src="' + currentBlobUrl + '" ' +
-      'sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms allow-modals allow-popups allow-orientation-lock">' +
-      '</iframe>' +
+      '<iframe id="gameFrame" sandbox="allow-scripts allow-pointer-lock allow-forms allow-modals allow-popups allow-orientation-lock"></iframe>' +
     '</div>' +
     '<div class="game-actions">' +
       '<button class="btn ghost" onclick="restartGame()">🔄 Перезапустить</button>' +
       '<button class="btn ghost" onclick="toggleFs()">⛶ На весь экран</button>' +
-      (hasProg && u
-        ? '<button class="btn err" onclick="confirmResetProgress(\'' + g.id + '\')">🗑 Сбросить прогресс</button>'
-        : '') +
+      (hasProg && u ? '<button class="btn err" onclick="confirmResetProgress(\''+g.id+'\')">🗑 Сбросить прогресс</button>' : '') +
     '</div>' +
-    progressBar +
-    (g.desc ? '<p class="desc">' + esc(g.desc) + '</p>' : '');
+    (u
+      ? '<div class="progress-bar" id="progressBar"><span class="icon">💾</span>' +
+          '<div class="txt"><b>'+esc(u.username)+'</b>, прогресс сохраняется в аккаунте. ' +
+          '<span class="status">'+(hasProg?'✅ У вас есть сохранённые данные.':'Пока пусто — начните играть!')+'</span>' +
+          (u.is_dev?'<div class="muted" style="font-size:12px;margin-top:5px">API: <code>GameHub.save(obj)</code> · <code>GameHub.load(cb)</code> · <code>GameHub.reset()</code></div>':'') +
+          '</div></div>'
+      : '<div class="progress-bar guest"><span class="icon">⚠️</span>' +
+          '<div class="txt"><b>Вы не вошли в аккаунт.</b> Прогресс не будет сохраняться. ' +
+          '<a href="#" onclick="go(\'auth\');return false" style="color:#a89bff;text-decoration:underline">Войти →</a></div></div>') +
+    (g.description ? '<p class="desc">'+esc(g.description)+'</p>' : '');
+
+  // Загружаем HTML и создаём blob-url
+  const res = await fetch(g.html_url);
+  const html = await res.text();
+  currentGameHtml = html;
+  const frame = document.getElementById('gameFrame');
+  if (frame) frame.src = buildGameSrc(html, u?u.id:null, g.id);
 }
 
-function restartGame(){
-  const f = document.getElementById('gameFrame');
-  if (!f) return;
-  const g = getGame(state.current);
+async function restartGame(){
+  const g = state.games.find(x=>x.id===state.current);
   if (!g) return;
-  const u = me();
-  const html = localStorage.getItem('gh_html_' + g.id) || '';
-  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-  currentBlobUrl = buildGameSrc(html, u ? u.id : null, g.id);
-  f.src = currentBlobUrl;
+  const res = await fetch(g.html_url);
+  const html = await res.text();
+  const frame = document.getElementById('gameFrame');
+  if (frame) frame.src = buildGameSrc(html, state.user?state.user.id:null, g.id);
 }
 
 function toggleFs(){
-  const box = document.getElementById('frameBox');
+  const box=document.getElementById('frameBox');
   if (!box) return;
   if (document.fullscreenElement) document.exitFullscreen();
   else if (box.requestFullscreen) box.requestFullscreen();
 }
 
-function confirmResetProgress(gameId){
-  if (!me()) return;
+async function confirmResetProgress(gameId){
+  if (!state.user) return;
   if (!confirm('Сбросить весь сохранённый прогресс для этой игры?')) return;
-  resetProgress(gameId);
-  toast('Прогресс сброшен', 'warn');
-  renderGame(document.getElementById('app'));
+  await resetProgressDb(gameId);
+  toast('Прогресс сброшен','warn');
+  await renderGame(document.getElementById('app'));
 }
 
 /* =========================================================
@@ -699,59 +428,69 @@ function confirmResetProgress(gameId){
 function renderAuth(app, notice){
   app.innerHTML =
     '<div class="auth-wrap"><div class="auth">' +
-      (notice ? '<div class="notice">' + esc(notice) + '</div>' : '') +
+      (notice ? '<div class="notice">'+esc(notice)+'</div>' : '') +
       '<div class="tabs">' +
-        '<button class="' + (state.authTab === 'login' ? 'active' : '') + '" onclick="setAuthTab(\'login\')">Вход</button>' +
-        '<button class="' + (state.authTab === 'register' ? 'active' : '') + '" onclick="setAuthTab(\'register\')">Регистрация</button>' +
+        '<button class="'+(state.authTab==='login'?'active':'')+'" onclick="setAuthTab(\'login\')">Вход</button>' +
+        '<button class="'+(state.authTab==='register'?'active':'')+'" onclick="setAuthTab(\'register\')">Регистрация</button>' +
       '</div>' +
       '<label>Логин</label>' +
       '<input class="inp" id="auLogin" placeholder="Ваш логин" autocomplete="username">' +
       '<label>Пароль</label>' +
-      '<input class="inp" id="auPass" type="password" placeholder="Ваш пароль" autocomplete="current-password" ' +
+      '<input class="inp" id="auPass" type="password" placeholder="Минимум 6 символов" autocomplete="current-password" ' +
         'onkeydown="if(event.key===\'Enter\')doAuth()">' +
-      '<button class="btn" style="width:100%;justify-content:center" onclick="doAuth()">' +
-        (state.authTab === 'login' ? 'Войти' : 'Создать аккаунт') +
+      '<button class="btn" id="auBtn" style="width:100%;justify-content:center" onclick="doAuth()">' +
+        (state.authTab==='login'?'Войти':'Создать аккаунт') +
       '</button>' +
       '<p class="muted" style="margin:16px 0 0;text-align:center;font-size:13px">' +
-        'Аккаунт нужен для сохранения прогресса, загрузки игр и доступа к режиму разработчика.' +
+        'Аккаунт общий для всех посетителей сайта. Один логин — один аккаунт.' +
       '</p>' +
     '</div></div>';
 }
+function setAuthTab(t){ state.authTab=t; renderAuth(document.getElementById('app')); }
 
-function setAuthTab(t){ state.authTab = t; renderAuth(document.getElementById('app')); }
-
-function doAuth(){
+async function doAuth(){
   const login = document.getElementById('auLogin').value.trim();
   const pass  = document.getElementById('auPass').value;
+  const btn   = document.getElementById('auBtn');
 
-  if (login.length < 3) return toast('Логин — минимум 3 символа', 'err');
-  if (pass.length < 4)  return toast('Пароль — минимум 4 символа', 'err');
+  if (login.length < 3) return toast('Логин — минимум 3 символа','err');
+  if (!/^[a-zA-Z0-9_]+$/.test(login)) return toast('Только буквы, цифры и _','err');
+  if (pass.length < 6) return toast('Пароль — минимум 6 символов','err');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Подожди...';
+
+  const email = usernameToEmail(login);
 
   if (state.authTab === 'register'){
-    if (state.users.some(u => u.login.toLowerCase() === login.toLowerCase()))
-      return toast('Такой логин уже занят', 'err');
-
-    const u = { id: uid(), login: login, pass: hash(pass), isDev: false, createdAt: Date.now() };
-    state.users.push(u);
-    saveUsers();
-    state.session = u.id;
-    LS.set('gh_session', u.id);
-    toast('Аккаунт создан! Добро пожаловать, ' + login, 'ok');
-    go('catalog');
+    const { error } = await sb.auth.signUp({
+      email, password: pass,
+      options: { data: { username: login } }
+    });
+    if (error){
+      btn.disabled=false; btn.textContent='Создать аккаунт';
+      if (/already/i.test(error.message)) return toast('Такой логин уже занят','err');
+      return toast('Ошибка: '+error.message,'err');
+    }
+    toast('Аккаунт создан! Добро пожаловать, '+login,'ok');
   } else {
-    const u = state.users.find(x => x.login.toLowerCase() === login.toLowerCase());
-    if (!u || u.pass !== hash(pass)) return toast('Неверный логин или пароль', 'err');
-    state.session = u.id;
-    LS.set('gh_session', u.id);
-    toast('С возвращением, ' + u.login + '!', 'ok');
-    go('catalog');
+    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+    if (error){
+      btn.disabled=false; btn.textContent='Войти';
+      return toast('Неверный логин или пароль','err');
+    }
+    toast('С возвращением, '+login+'!','ok');
   }
+
+  await refreshUser();
+  await loadGames();
+  go('catalog');
 }
 
-function logout(){
-  state.session = null;
-  LS.set('gh_session', null);
-  toast('Вы вышли из аккаунта', 'warn');
+async function logout(){
+  await sb.auth.signOut();
+  state.user = null;
+  toast('Вы вышли из аккаунта','warn');
   go('catalog');
 }
 
@@ -759,109 +498,93 @@ function logout(){
    ЗАГРУЗКА ИГРЫ
    ========================================================= */
 function renderUpload(app){
-  if (!me()){
-    state.authTab = 'login';
-    return renderAuth(app, 'Чтобы загрузить игру, войдите в аккаунт или зарегистрируйтесь.');
+  if (!state.user){
+    state.authTab='login';
+    return renderAuth(app,'Чтобы загрузить игру, войдите в аккаунт или зарегистрируйтесь.');
   }
-
   app.innerHTML =
     '<button class="btn ghost sm" onclick="go(\'catalog\')">← В каталог</button>' +
     '<h1 style="margin-top:18px">Загрузка игры</h1>' +
-    '<p class="muted" style="margin-bottom:24px">Загрузите один HTML-файл (все стили, скрипты и картинки должны быть внутри него). ' +
-      'Игра появится в каталоге после проверки разработчиком.</p>' +
+    '<p class="muted" style="margin-bottom:24px">Загрузите один HTML-файл (все стили, скрипты и картинки должны быть внутри). Игра появится в каталоге после проверки.</p>' +
     '<div class="panel">' +
-      '<label>Название игры *</label>' +
+      '<label>Название *</label>' +
       '<input class="inp" id="upTitle" maxlength="60" placeholder="Например: Космический шутер">' +
-
       '<label>Описание</label>' +
-      '<textarea class="inp" id="upDesc" maxlength="400" placeholder="Расскажите об управлении и правилах..."></textarea>' +
-
-      '<label>HTML-файл игры * (до 3 МБ)</label>' +
+      '<textarea class="inp" id="upDesc" maxlength="400" placeholder="Расскажите об управлении..."></textarea>' +
+      '<label>HTML-файл * (до 3 МБ)</label>' +
       '<input class="inp" id="upFile" type="file" accept=".html,.htm,text/html">' +
-
-      '<label>Обложка (необязательно, до 400 КБ)</label>' +
+      '<label>Обложка (до 400 КБ, необязательно)</label>' +
       '<input class="inp" id="upCover" type="file" accept="image/*">' +
-
       '<div class="notice" style="margin:4px 0 18px">' +
-        '💾 Для сохранения прогресса используйте в игре:<br>' +
+        '💾 Для сохранения прогресса в игре:<br>' +
         '<code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">GameHub.save({level: 3})</code> — сохранить<br>' +
         '<code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">GameHub.load(function(d){ ... })</code> — загрузить<br>' +
         '<code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">GameHub.reset()</code> — сбросить' +
       '</div>' +
-
-      '<button class="btn" style="width:100%;justify-content:center" onclick="submitGame()">📤 Отправить на модерацию</button>' +
+      '<button class="btn" id="upBtn" style="width:100%;justify-content:center" onclick="submitGame()">📤 Отправить на модерацию</button>' +
     '</div>';
 }
 
-function readFile(file){
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result);
-    r.onerror = () => reject(new Error('Ошибка чтения файла'));
-    r.readAsText(file);
-  });
-}
-function readImage(file){
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result);
-    r.onerror = () => reject(new Error('Ошибка чтения изображения'));
-    r.readAsDataURL(file);
-  });
-}
-
 async function submitGame(){
-  const u = me();
+  const u = state.user;
   if (!u) return go('auth');
 
   const title = document.getElementById('upTitle').value.trim();
   const desc  = document.getElementById('upDesc').value.trim();
   const file  = document.getElementById('upFile').files[0];
-  const coverF = document.getElementById('upCover').files[0];
+  const coverF= document.getElementById('upCover').files[0];
+  const btn   = document.getElementById('upBtn');
 
-  if (title.length < 2) return toast('Введите название игры', 'err');
-  if (!file) return toast('Выберите HTML-файл игры', 'err');
-  if (file.size > MAX_HTML_SIZE) return toast('Файл больше 3 МБ', 'err');
+  if (title.length < 2) return toast('Введите название','err');
+  if (!file) return toast('Выберите HTML-файл','err');
+  if (file.size > MAX_HTML_SIZE) return toast('Файл больше 3 МБ','err');
+  if (coverF && coverF.size > MAX_COVER_SIZE) return toast('Обложка больше 400 КБ','err');
 
-  let cover = '';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Загружаю...';
+
+  // 1) Генерируем ID игры (клиентский uuid)
+  const gameId = crypto.randomUUID();
+
+  // 2) Загружаем HTML
+  const htmlPath = gameId + '.html';
+  const { error: htmlErr } = await sb.storage.from('games').upload(htmlPath, file, { contentType:'text/html', upsert:false });
+  if (htmlErr){ btn.disabled=false; btn.textContent='📤 Отправить на модерацию'; return toast('Ошибка загрузки HTML: '+htmlErr.message,'err'); }
+  const htmlUrl = sb.storage.from('games').getPublicUrl(htmlPath).data.publicUrl;
+
+  // 3) Загружаем обложку (если есть)
+  let coverUrl = '';
   if (coverF){
-    if (coverF.size > MAX_COVER_SIZE) return toast('Обложка больше 400 КБ', 'err');
-    cover = await readImage(coverF);
+    const ext = (coverF.name.split('.').pop() || 'jpg').toLowerCase();
+    const coverPath = gameId + '.' + ext;
+    const { error: covErr } = await sb.storage.from('covers').upload(coverPath, coverF, { contentType: coverF.type, upsert:false });
+    if (!covErr) coverUrl = sb.storage.from('covers').getPublicUrl(coverPath).data.publicUrl;
   }
 
-  const html = await readFile(file);
-  if (!/<html|<!doctype|<body|<script|<canvas|<div/i.test(html)){
-    if (!confirm('Файл не похож на HTML-игру. Всё равно загрузить?')) return;
-  }
-
-  const id = uid();
-  try{
-    localStorage.setItem('gh_html_' + id, html);
-  }catch(e){
-    return toast('Не хватает места в хранилище браузера', 'err');
-  }
-
-  state.games.push({
-    id: id, title: title, desc: desc,
-    author: u.login, authorId: u.id, cover: cover,
-    status: 'pending', plays: 0, createdAt: Date.now()
+  // 4) Добавляем запись в БД
+  const { error: dbErr } = await sb.from('games').insert({
+    id: gameId,
+    title, description: desc,
+    author_id: u.id, author_name: u.username,
+    status: 'pending',
+    cover_url: coverUrl,
+    html_url: htmlUrl
   });
-  saveGames();
+  if (dbErr){ btn.disabled=false; btn.textContent='📤 Отправить на модерацию'; return toast('Ошибка БД: '+dbErr.message,'err'); }
 
-  toast('Игра отправлена на модерацию ✓', 'ok');
+  toast('Игра отправлена на модерацию ✓','ok');
+  await loadGames();
   go('profile');
 }
 
 /* =========================================================
    ПРОФИЛЬ
    ========================================================= */
-function renderProfile(app){
-  const u = me();
-  if (!u){ state.authTab = 'login'; return renderAuth(app, 'Войдите в аккаунт.'); }
+async function renderProfile(app){
+  const u = state.user;
+  if (!u){ state.authTab='login'; return renderAuth(app,'Войдите в аккаунт.'); }
 
-  const my = state.games.filter(g => g.authorId === u.id).sort((a, b) => b.createdAt - a.createdAt);
-  const savedCount = my.filter(g => hasProgress(g.id)).length;
-
+  const my = state.games.filter(g => g.author_id === u.id);
   const statusBadge = {
     pending:  '<span class="badge pending">⏳ На модерации</span>',
     approved: '<span class="badge approved">✅ Опубликована</span>',
@@ -869,266 +592,173 @@ function renderProfile(app){
   };
 
   app.innerHTML =
-    '<div class="panel wide" style="margin-bottom:26px">' +
-      '<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">' +
-        '<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#00d2ff);' +
-          'display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800">' +
-          esc(u.login[0].toUpperCase()) + '</div>' +
-        '<div style="flex:1;min-width:180px">' +
-          '<h2>' + esc(u.login) + ' ' + (u.isDev ? '<span class="badge dev">🛠 Разработчик</span>' : '') + '</h2>' +
-          '<div class="muted">В GameHub с ' + fmtDate(u.createdAt) +
-            ' · своих игр: ' + my.length +
-            (savedCount ? ' · 💾 сохранений: ' + savedCount : '') +
-          '</div>' +
-        '</div>' +
-        '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-          (u.isDev
-            ? '<button class="btn warn" onclick="go(\'dev\')">🛠 Панель разработчика</button>'
-            : '<button class="btn ghost" onclick="askDevPassword()">🔑 Режим разработчика</button>') +
-          '<button class="btn ghost" onclick="logout()">Выйти</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-
-    '<div class="sec-head"><h2>Мои игры</h2>' +
-      '<button class="btn sm" onclick="go(\'upload\')">➕ Загрузить ещё</button></div>' +
-
+    '<div class="panel wide" style="margin-bottom:26px"><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">' +
+      '<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#00d2ff);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800">' +
+        esc(u.username[0].toUpperCase())+'</div>' +
+      '<div style="flex:1;min-width:180px"><h2>'+esc(u.username)+' '+(u.is_dev?'<span class="badge dev">🛠 Разработчик</span>':'')+'</h2>' +
+        '<div class="muted">Своих игр: '+my.length+'</div></div>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+        (u.is_dev
+          ? '<button class="btn warn" onclick="go(\'dev\')">🛠 Панель разработчика</button>'
+          : '<button class="btn ghost" onclick="askDevPassword()">🔑 Режим разработчика</button>') +
+        '<button class="btn ghost" onclick="logout()">Выйти</button>' +
+      '</div></div></div>' +
+    '<div class="sec-head"><h2>Мои игры</h2><button class="btn sm" onclick="go(\'upload\')">➕ Загрузить ещё</button></div>' +
     (my.length ? my.map(g =>
       '<div class="dev-item">' +
-        '<div class="cover-mini">' + (g.cover ? '<img src="' + g.cover + '">' : esc((g.title[0] || '?').toUpperCase())) + '</div>' +
-        '<div class="dev-item-info">' +
-          '<div class="t">' + esc(g.title) + ' ' + (statusBadge[g.status] || '') + '</div>' +
-          '<div class="muted" style="font-size:13px">' + fmtDate(g.createdAt) + ' · 🎮 ' + (g.plays || 0) +
-            (hasProgress(g.id) ? ' · 💾 есть сохранение' : '') + '</div>' +
-          (g.desc ? '<div class="d">' + esc(g.desc) + '</div>' : '') +
-        '</div>' +
+        '<div class="cover-mini">'+(g.cover_url?'<img src="'+g.cover_url+'">':esc((g.title[0]||'?').toUpperCase()))+'</div>' +
+        '<div class="dev-item-info"><div class="t">'+esc(g.title)+' '+(statusBadge[g.status]||'')+'</div>' +
+          '<div class="muted" style="font-size:13px">'+fmtDate(g.created_at)+' · 🎮 '+(g.plays||0)+'</div>' +
+          (g.description?'<div class="d">'+esc(g.description)+'</div>':'')+'</div>' +
         '<div class="dev-item-actions">' +
-          (g.status === 'approved' ? '<button class="btn sm" onclick="openGame(\'' + g.id + '\')">▶ Играть</button>' : '') +
-          '<button class="btn err sm" onclick="deleteGame(\'' + g.id + '\', true)">Удалить</button>' +
-        '</div>' +
-      '</div>'
-    ).join('') : '<div class="empty">У вас пока нет загруженных игр</div>');
+          (g.status==='approved'?'<button class="btn sm" onclick="openGame(\''+g.id+'\')">▶ Играть</button>':'') +
+          '<button class="btn err sm" onclick="deleteGame(\''+g.id+'\')">Удалить</button>' +
+        '</div></div>'
+    ).join('') : '<div class="empty">У вас пока нет игр</div>');
 }
 
 /* =========================================================
    РЕЖИМ РАЗРАБОТЧИКА
    ========================================================= */
 function askDevPassword(){
-  if (!me()){ toast('Сначала войдите в аккаунт', 'warn'); return go('auth'); }
+  if (!state.user){ toast('Сначала войдите','warn'); return go('auth'); }
   openModal(
     '<h3>🛠 Режим разработчика</h3>' +
-    '<p class="muted" style="margin:0 0 18px">Введите пароль разработчика для доступа к панели модерации.</p>' +
+    '<p class="muted" style="margin:0 0 18px">Введите пароль.</p>' +
     '<input class="inp" id="devPass" type="password" placeholder="Пароль" autocomplete="off" ' +
       'onkeydown="if(event.key===\'Enter\')checkDevPass()">' +
-    '<div class="modal-actions">' +
-      '<button class="btn ghost" onclick="closeModal()">Отмена</button>' +
-      '<button class="btn" onclick="checkDevPass()">Войти</button>' +
-    '</div>'
-  );
-  setTimeout(() => { const i = document.getElementById('devPass'); if (i) i.focus(); }, 50);
+    '<div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Отмена</button>' +
+      '<button class="btn" onclick="checkDevPass()">Войти</button></div>');
+  setTimeout(()=>{const i=document.getElementById('devPass');if(i)i.focus();},50);
 }
-
 function checkDevPass(){
-  const val = (document.getElementById('devPass') || {}).value || '';
+  const val = (document.getElementById('devPass')||{}).value || '';
   if (val === DEV_PASSWORD){
-    const u = me();
-    u.isDev = true;
-    saveUsers();
+    if (!state.user.is_dev){
+      toast('Пароль верный, но у аккаунта нет dev-прав в БД','err');
+      closeModal();
+      return;
+    }
     closeModal();
-    toast('Режим разработчика активирован 🛠', 'ok');
     go('dev');
   } else {
-    toast('Неверный пароль', 'err');
-    const i = document.getElementById('devPass');
-    if (i){ i.value = ''; i.focus(); }
+    toast('Неверный пароль','err');
+    const i=document.getElementById('devPass');if(i){i.value='';i.focus();}
   }
 }
 
-function renderDev(app){
-  if (!isDev()){
-    if (me()) return askDevPassword();
-    state.authTab = 'login';
-    return renderAuth(app, 'Режим разработчика доступен только авторизованным пользователям.');
+async function renderDev(app){
+  if (!state.user || !state.user.is_dev){
+    if (state.user) return askDevPassword();
+    state.authTab='login';
+    return renderAuth(app,'Режим разработчика доступен только авторизованным.');
   }
 
-  const pending  = state.games.filter(g => g.status === 'pending').sort((a, b) => a.createdAt - b.createdAt);
-  const approved = state.games.filter(g => g.status === 'approved');
-  const rejected = state.games.filter(g => g.status === 'rejected');
+  const pending  = state.games.filter(g=>g.status==='pending');
+  const approved = state.games.filter(g=>g.status==='approved');
+  const rejected = state.games.filter(g=>g.status==='rejected');
 
   let tabs =
     '<div class="tabs" style="max-width:560px">' +
-      '<button class="' + (state.devTab === 'pending' ? 'active' : '') + '" onclick="setDevTab(\'pending\')">⏳ Модерация (' + pending.length + ')</button>' +
-      '<button class="' + (state.devTab === 'all' ? 'active' : '') + '" onclick="setDevTab(\'all\')">🎮 Все игры (' + state.games.length + ')</button>' +
-      '<button class="' + (state.devTab === 'users' ? 'active' : '') + '" onclick="setDevTab(\'users\')">👥 Юзеры (' + state.users.length + ')</button>' +
+      '<button class="'+(state.devTab==='pending'?'active':'')+'" onclick="setDevTab(\'pending\')">⏳ Модерация ('+pending.length+')</button>' +
+      '<button class="'+(state.devTab==='all'?'active':'')+'" onclick="setDevTab(\'all\')">🎮 Все игры ('+state.games.length+')</button>' +
     '</div>';
 
   let body = '';
 
   if (state.devTab === 'pending'){
     body = pending.length ? pending.map(g =>
-      '<div class="dev-item">' +
-        '<div class="cover-mini">' + (g.cover ? '<img src="' + g.cover + '">' : esc((g.title[0] || '?').toUpperCase())) + '</div>' +
-        '<div class="dev-item-info">' +
-          '<div class="t">' + esc(g.title) + ' <span class="badge pending">⏳ Ожидает</span></div>' +
-          '<div class="muted" style="font-size:13px">от <b>' + esc(g.author) + '</b> · ' + fmtDate(g.createdAt) + '</div>' +
-          (g.desc ? '<div class="d">' + esc(g.desc) + '</div>' : '') +
-        '</div>' +
+      '<div class="dev-item"><div class="cover-mini">'+(g.cover_url?'<img src="'+g.cover_url+'">':esc((g.title[0]||'?').toUpperCase()))+'</div>' +
+        '<div class="dev-item-info"><div class="t">'+esc(g.title)+' <span class="badge pending">⏳</span></div>' +
+          '<div class="muted" style="font-size:13px">от <b>'+esc(g.author_name)+'</b> · '+fmtDate(g.created_at)+'</div>' +
+          (g.description?'<div class="d">'+esc(g.description)+'</div>':'')+'</div>' +
         '<div class="dev-item-actions">' +
-          '<button class="btn ghost sm" onclick="openGame(\'' + g.id + '\')">👁 Проверить</button>' +
-          '<button class="btn ok sm" onclick="approveGame(\'' + g.id + '\')">✅ Принять</button>' +
-          '<button class="btn err sm" onclick="rejectGame(\'' + g.id + '\')">❌ Отклонить</button>' +
-        '</div>' +
-      '</div>'
-    ).join('') : '<div class="empty">🎉 Новых заявок нет — всё проверено!</div>';
+          '<button class="btn ghost sm" onclick="openGame(\''+g.id+'\')">👁 Проверить</button>' +
+          '<button class="btn ok sm" onclick="approveGame(\''+g.id+'\')">✅ Принять</button>' +
+          '<button class="btn err sm" onclick="rejectGame(\''+g.id+'\')">❌ Отклонить</button>' +
+        '</div></div>'
+    ).join('') : '<div class="empty">🎉 Новых заявок нет</div>';
   }
 
   if (state.devTab === 'all'){
-    body = state.games.length ? state.games.slice().sort((a, b) => b.createdAt - a.createdAt).map(g => {
-      const st = {pending:'pending', approved:'approved', rejected:'rejected'}[g.status];
-      const label = {pending:'⏳ На модерации', approved:'✅ Опубликована', rejected:'❌ Отклонена'}[g.status];
-      return '<div class="dev-item">' +
-        '<div class="cover-mini">' + (g.cover ? '<img src="' + g.cover + '">' : esc((g.title[0] || '?').toUpperCase())) + '</div>' +
-        '<div class="dev-item-info">' +
-          '<div class="t">' + esc(g.title) + ' <span class="badge ' + st + '">' + label + '</span></div>' +
-          '<div class="muted" style="font-size:13px">от <b>' + esc(g.author) + '</b> · ' + fmtDate(g.createdAt) + ' · 🎮 ' + (g.plays || 0) + '</div>' +
-        '</div>' +
+    body = state.games.length ? state.games.map(g => {
+      const st = g.status;
+      const label = {pending:'⏳ На модерации', approved:'✅ Опубликована', rejected:'❌ Отклонена'}[st];
+      return '<div class="dev-item"><div class="cover-mini">'+(g.cover_url?'<img src="'+g.cover_url+'">':esc((g.title[0]||'?').toUpperCase()))+'</div>' +
+        '<div class="dev-item-info"><div class="t">'+esc(g.title)+' <span class="badge '+st+'">'+label+'</span></div>' +
+          '<div class="muted" style="font-size:13px">от <b>'+esc(g.author_name)+'</b> · '+fmtDate(g.created_at)+' · 🎮 '+(g.plays||0)+'</div></div>' +
         '<div class="dev-item-actions">' +
-          (g.status === 'approved' ? '<button class="btn ghost sm" onclick="openGame(\'' + g.id + '\')">▶ Играть</button>' : '') +
-          (g.status !== 'approved' ? '<button class="btn ok sm" onclick="approveGame(\'' + g.id + '\')">✅ Принять</button>' : '') +
-          (g.status !== 'rejected' ? '<button class="btn warn sm" onclick="rejectGame(\'' + g.id + '\')">❌ Отклонить</button>' : '') +
-          '<button class="btn err sm" onclick="deleteGame(\'' + g.id + '\')">🗑 Удалить</button>' +
-        '</div>' +
-      '</div>';
+          (g.status==='approved'?'<button class="btn ghost sm" onclick="openGame(\''+g.id+'\')">▶</button>':'') +
+          (g.status!=='approved'?'<button class="btn ok sm" onclick="approveGame(\''+g.id+'\')">✅</button>':'') +
+          (g.status!=='rejected'?'<button class="btn warn sm" onclick="rejectGame(\''+g.id+'\')">❌</button>':'') +
+          '<button class="btn err sm" onclick="deleteGame(\''+g.id+'\')">🗑</button>' +
+        '</div></div>';
     }).join('') : '<div class="empty">Игр нет</div>';
   }
 
-  if (state.devTab === 'users'){
-    body = '<div class="panel wide" style="padding:8px 20px"><table>' +
-      '<tr><th>Логин</th><th>Роль</th><th>Игр</th><th>Сохранений</th><th>Регистрация</th><th></th></tr>' +
-      state.users.map(u => {
-        const cnt = state.games.filter(g => g.authorId === u.id).length;
-        let savedTotal = 0;
-        state.games.forEach(g => {
-          try{ if (localStorage.getItem(progressKey(u.id, g.id)) !== null) savedTotal++; }catch(e){}
-        });
-        return '<tr>' +
-          '<td><b>' + esc(u.login) + '</b></td>' +
-          '<td>' + (u.isDev ? '<span class="badge dev">🛠 Разработчик</span>' : '<span class="muted">Игрок</span>') + '</td>' +
-          '<td>' + cnt + '</td>' +
-          '<td>' + (savedTotal ? '💾 ' + savedTotal : '<span class="muted">—</span>') + '</td>' +
-          '<td class="muted">' + fmtDate(u.createdAt) + '</td>' +
-          '<td style="text-align:right">' +
-            (u.id !== state.session
-              ? '<button class="btn err sm" onclick="deleteUser(\'' + u.id + '\')">Удалить</button>'
-              : '<span class="muted" style="font-size:12px">это вы</span>') +
-          '</td>' +
-        '</tr>';
-      }).join('') +
-    '</table></div>';
-  }
-
   app.innerHTML =
-    '<div class="sec-head">' +
-      '<div><h1 style="margin:0">Панель разработчика</h1>' +
-      '<div class="muted">Управление играми и пользователями платформы</div></div>' +
+    '<div class="sec-head"><div><h1 style="margin:0">Панель разработчика</h1>' +
+      '<div class="muted">Модерация и управление играми</div></div>' +
       '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-        '<span class="badge approved">Опубликовано: ' + approved.length + '</span>' +
-        '<span class="badge pending">На модерации: ' + pending.length + '</span>' +
-        '<span class="badge rejected">Отклонено: ' + rejected.length + '</span>' +
-        '<button class="btn ghost sm" onclick="exitDevMode()">Выйти из режима</button>' +
-      '</div>' +
-    '</div>' +
-    tabs + body;
+        '<span class="badge approved">Опубликовано: '+approved.length+'</span>' +
+        '<span class="badge pending">На модерации: '+pending.length+'</span>' +
+        '<span class="badge rejected">Отклонено: '+rejected.length+'</span>' +
+      '</div></div>' + tabs + body;
 }
 
-function setDevTab(t){ state.devTab = t; renderDev(document.getElementById('app')); }
+function setDevTab(t){ state.devTab=t; renderDev(document.getElementById('app')); }
 
-function exitDevMode(){
-  const u = me();
-  if (!u) return;
-  u.isDev = false;
-  saveUsers();
-  toast('Режим разработчика выключен', 'warn');
-  go('profile');
-}
-
-function approveGame(id){
-  const g = getGame(id);
-  if (!g) return;
-  g.status = 'approved';
-  saveGames();
-  toast('Игра «' + g.title + '» опубликована ✓', 'ok');
+async function approveGame(id){
+  const { error } = await sb.from('games').update({status:'approved'}).eq('id',id);
+  if (error) return toast('Ошибка: '+error.message,'err');
+  toast('Игра опубликована ✓','ok');
+  await loadGames();
   renderDev(document.getElementById('app'));
-  renderNav();
 }
-
-function rejectGame(id){
-  const g = getGame(id);
-  if (!g) return;
-  g.status = 'rejected';
-  saveGames();
-  toast('Игра «' + g.title + '» отклонена', 'warn');
+async function rejectGame(id){
+  const { error } = await sb.from('games').update({status:'rejected'}).eq('id',id);
+  if (error) return toast('Ошибка: '+error.message,'err');
+  toast('Игра отклонена','warn');
+  await loadGames();
   renderDev(document.getElementById('app'));
-  renderNav();
 }
-
-function deleteGame(id, own){
-  const g = getGame(id);
+async function deleteGame(id){
+  const g = state.games.find(x=>x.id===id);
   if (!g) return;
-  if (!own && !isDev()) return toast('Нет прав', 'err');
-  if (own && g.authorId !== state.session && !isDev()) return toast('Нет прав', 'err');
-  if (!confirm('Удалить игру «' + g.title + '» навсегда?')) return;
-
-  state.games = state.games.filter(x => x.id !== id);
-  saveGames();
-  try{ localStorage.removeItem('gh_html_' + id); }catch(e){}
-
-  const toRemove = [];
-  for (let i = 0; i < localStorage.length; i++){
-    const k = localStorage.key(i);
-    if (k && k.indexOf('gh_progress_') === 0 && k.endsWith('_' + id)) toRemove.push(k);
-  }
-  toRemove.forEach(k => { try{ localStorage.removeItem(k); }catch(e){} });
-
-  toast('Игра удалена', 'warn');
-  if (state.view === 'dev') renderDev(document.getElementById('app'));
+  if (g.author_id !== state.user.id && !state.user.is_dev) return toast('Нет прав','err');
+  if (!confirm('Удалить игру «'+g.title+'» навсегда?')) return;
+  // Удаляем файлы из Storage
+  try{
+    const htmlPath = g.html_url.split('/').pop();
+    await sb.storage.from('games').remove([htmlPath]);
+    if (g.cover_url){
+      const coverPath = g.cover_url.split('/').pop();
+      await sb.storage.from('covers').remove([coverPath]);
+    }
+  }catch(_){}
+  const { error } = await sb.from('games').delete().eq('id',id);
+  if (error) return toast('Ошибка: '+error.message,'err');
+  toast('Игра удалена','warn');
+  await loadGames();
+  if (state.view==='dev') renderDev(document.getElementById('app'));
   else render();
-  renderNav();
-}
-
-function deleteUser(id){
-  const u = state.users.find(x => x.id === id);
-  if (!u) return;
-  if (!confirm('Удалить пользователя «' + u.login + '» и все его игры?')) return;
-
-  state.games.filter(g => g.authorId === id).forEach(g => {
-    try{ localStorage.removeItem('gh_html_' + g.id); }catch(e){}
-  });
-  state.games = state.games.filter(g => g.authorId !== id);
-  state.users = state.users.filter(x => x.id !== id);
-
-  const toRemove = [];
-  for (let i = 0; i < localStorage.length; i++){
-    const k = localStorage.key(i);
-    if (k && k.indexOf('gh_progress_' + id + '_') === 0) toRemove.push(k);
-  }
-  toRemove.forEach(k => { try{ localStorage.removeItem(k); }catch(e){} });
-
-  saveGames();
-  saveUsers();
-  toast('Пользователь удалён', 'warn');
-  renderDev(document.getElementById('app'));
-  renderNav();
 }
 
 /* =========================================================
-   СТАРТ
+   ИНИЦИАЛИЗАЦИЯ
    ========================================================= */
-(function init(){
-  if (state.session && !state.users.some(u => u.id === state.session)){
-    state.session = null;
-    LS.set('gh_session', null);
-  }
+(async function init(){
+  render(); // показываем спиннер
+  await refreshUser();
+  await loadGames();
+  state.ready = true;
+
+  // Реагируем на изменения сессии (вход/выход в другой вкладке)
+  sb.auth.onAuthStateChange(async () => {
+    await refreshUser();
+    renderNav();
+  });
+
   render();
 })();
 </script>
