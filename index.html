@@ -1,764 +1,840 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GameHub — платформа HTML-игр</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GameHub — HTML игры</title>
 <style>
-:root{--bg:#0e1016;--bg2:#151925;--bg3:#1d2233;--line:#2a3145;--txt:#e8ecf6;--muted:#8b94ad;--acc:#6c5ce7;--acc2:#00d2ff;--ok:#22c55e;--warn:#f59e0b;--err:#ef4444;--r:14px}
-*{box-sizing:border-box}html,body{height:100%}
-body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;
-background-image:radial-gradient(circle at 15% -10%,rgba(108,92,231,.18),transparent 45%),radial-gradient(circle at 90% 0%,rgba(0,210,255,.10),transparent 40%);background-attachment:fixed}
-a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
-.top{position:sticky;top:0;z-index:50;background:rgba(14,16,22,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.top-in{display:flex;align-items:center;gap:16px;height:66px}
-.logo{font-size:20px;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:9px;white-space:nowrap}
-.logo-mark{font-size:24px}
-.grad{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.search{flex:1;max-width:380px}
-.search input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--txt);outline:none;font-size:14px;font-family:inherit;transition:.15s}
-.search input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(108,92,231,.15)}
-.nav{display:flex;gap:8px;margin-left:auto;align-items:center;flex-wrap:wrap}
-.btn{padding:9px 16px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--acc),#8b7cf6);color:#fff;font-weight:600;font-size:14px;font-family:inherit;transition:.15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.btn:hover{filter:brightness(1.15);transform:translateY(-1px)}.btn:active{transform:translateY(0)}
-.btn.ghost{background:var(--bg3);color:var(--txt);border:1px solid var(--line)}.btn.ghost:hover{background:#252b3d;filter:none}
-.btn.ok{background:linear-gradient(135deg,#16a34a,#22c55e)}.btn.err{background:linear-gradient(135deg,#dc2626,#ef4444)}.btn.warn{background:linear-gradient(135deg,#d97706,#f59e0b)}
-.btn.sm{padding:6px 12px;font-size:13px;border-radius:8px}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.inp{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--txt);outline:none;font-size:14px;font-family:inherit;margin-bottom:14px;transition:.15s}
-.inp:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(108,92,231,.15)}
-textarea.inp{resize:vertical;min-height:80px}input[type=file].inp{padding:9px}
-label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px}
-main{padding:28px 0 70px}.muted{color:var(--muted);font-size:14px}
-h1{font-size:30px;margin:0 0 8px;letter-spacing:-.5px}h2{font-size:20px;margin:0}h3{font-size:17px;margin:0 0 10px}
-.hero{background:linear-gradient(135deg,rgba(108,92,231,.16),rgba(0,210,255,.07));border:1px solid var(--line);border-radius:20px;padding:34px 30px;margin-bottom:32px}
-.hero h1{font-size:34px}.hero p{color:var(--muted);margin:0 0 20px;max-width:560px;line-height:1.55}
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:18px}
-.card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.18s;display:flex;flex-direction:column;position:relative}
-.card:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 14px 32px rgba(108,92,231,.28)}
-.cover{aspect-ratio:16/10;background:linear-gradient(135deg,#2b2350,#16233d);display:flex;align-items:center;justify-content:center;font-size:46px;font-weight:800;color:rgba(255,255,255,.22);overflow:hidden}
-.cover img{width:100%;height:100%;object-fit:cover;display:block}
-.card-body{padding:12px 14px 14px}.card-title{font-weight:700;font-size:15px;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card-meta{color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:8px}.card-meta .saved{color:#a89bff;font-weight:700}
-.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:16px;border:1px dashed var(--line);border-radius:var(--r);background:rgba(21,25,37,.5)}
-.panel{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:26px;max-width:640px}.panel.wide{max-width:none}
-.game-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:18px 0 14px;flex-wrap:wrap}
-.game-frame{width:100%;height:70vh;min-height:420px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#000}
-.game-frame iframe{width:100%;height:100%;border:0;display:block;background:#000}.game-frame:fullscreen{border-radius:0;height:100vh}
-.game-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.desc{color:var(--muted);line-height:1.6;margin-top:18px;white-space:pre-wrap}
-.progress-bar{display:flex;align-items:center;gap:12px;margin-top:16px;padding:13px 16px;border-radius:11px;font-size:13.5px;flex-wrap:wrap;background:rgba(108,92,231,.10);border:1px solid rgba(108,92,231,.30);transition:.3s}
-.progress-bar.flash{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.5)}
-.progress-bar .icon{font-size:18px}.progress-bar .txt{flex:1;min-width:180px;line-height:1.45}
-.progress-bar code{background:rgba(0,0,0,.32);padding:2px 6px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace}
-.progress-bar.guest{background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.35)}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
-.badge.pending{background:rgba(245,158,11,.16);color:#fbbf24}.badge.approved{background:rgba(34,197,94,.16);color:#4ade80}
-.badge.rejected{background:rgba(239,68,68,.16);color:#f87171}.badge.dev{background:rgba(108,92,231,.2);color:#a89bff}
-.auth-wrap{display:flex;justify-content:center;padding-top:20px}.auth{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:30px}
-.tabs{display:flex;gap:6px;background:var(--bg3);padding:5px;border-radius:11px;margin-bottom:22px}
-.tabs button{flex:1;padding:9px;border:none;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;font-family:inherit;transition:.15s}
-.tabs button.active{background:var(--acc);color:#fff}
-.dev-item{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start}
-.dev-item .cover-mini{width:78px;height:58px;border-radius:9px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#2b2350,#16233d);display:flex;align-items:center;justify-content:center;font-weight:800;color:rgba(255,255,255,.25);font-size:22px}
-.dev-item .cover-mini img{width:100%;height:100%;object-fit:cover}
-.dev-item-info{flex:1;min-width:0}.dev-item-info .t{font-weight:700;margin-bottom:4px}
-.dev-item-info .d{color:var(--muted);font-size:13px;line-height:1.5;margin-top:6px;word-break:break-word}
-.dev-item-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
-table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
-th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}tr:last-child td{border-bottom:none}
-.overlay{position:fixed;inset:0;background:rgba(5,6,10,.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;animation:fade .18s ease}
+:root{
+  --bg:#0e1016; --panel:#161a23; --card:#1b202b; --border:#262c3a;
+  --text:#e9ecf5; --muted:#8992a8; --accent:#6c5ce7; --accent-h:#7d6ff0;
+  --green:#22c55e; --red:#ef4444; --yellow:#f59e0b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  min-height:100vh;
+}
+button{font-family:inherit}
+input,textarea{font-family:inherit}
+
+/* ---------- TOPBAR ---------- */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; gap:14px;
+  padding:12px 20px; background:rgba(14,16,22,.85);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--border);
+}
+.logo{
+  font-size:20px; font-weight:800; letter-spacing:-.5px;
+  background:linear-gradient(90deg,#a29bfe,#6c5ce7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  cursor:pointer; white-space:nowrap;
+}
+.search{
+  flex:1; max-width:420px; padding:9px 14px; border-radius:10px;
+  background:var(--panel); border:1px solid var(--border);
+  color:var(--text); outline:none; font-size:14px;
+}
+.search:focus{border-color:var(--accent)}
+.top-actions{display:flex; gap:8px; margin-left:auto; align-items:center}
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  padding:9px 16px; border-radius:10px; border:1px solid var(--border);
+  background:var(--panel); color:var(--text); cursor:pointer;
+  font-size:14px; font-weight:600; transition:.15s; white-space:nowrap;
+}
+.btn:hover{background:#1e2330; border-color:#333b4d}
+.btn-primary{background:var(--accent); border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-h); border-color:var(--accent-h)}
+.btn-danger{background:rgba(239,68,68,.12); border-color:rgba(239,68,68,.4); color:#ff8f8f}
+.btn-danger:hover{background:rgba(239,68,68,.25)}
+.btn-green{background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.4); color:#7ee2a8}
+.btn-green:hover{background:rgba(34,197,94,.25)}
+.btn-sm{padding:6px 11px; font-size:13px; border-radius:8px}
+
+/* ---------- LAYOUT ---------- */
+main{padding:24px 20px 60px; max-width:1280px; margin:0 auto}
+.hero{text-align:center; padding:26px 0 34px}
+.hero h1{margin:0 0 8px; font-size:34px; letter-spacing:-1px}
+.hero p{margin:0; color:var(--muted); font-size:15px}
+
+.grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:18px;
+}
+.card{
+  position:relative; background:var(--card); border:1px solid var(--border);
+  border-radius:14px; overflow:hidden; cursor:pointer; transition:.18s;
+}
+.card:hover{transform:translateY(-4px); border-color:var(--accent); box-shadow:0 10px 30px rgba(108,92,231,.22)}
+.cover{
+  aspect-ratio:4/3; background:linear-gradient(135deg,#2a2f45,#1b202b);
+  background-size:cover; background-position:center;
+  display:flex; align-items:center; justify-content:center;
+  font-size:46px; font-weight:800; color:#4b5473;
+}
+.card-body{padding:11px 13px 14px}
+.card-body h3{
+  margin:0 0 5px; font-size:14.5px; font-weight:700;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.meta{font-size:12px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.del-btn{
+  position:absolute; top:8px; right:8px; width:28px; height:28px;
+  border-radius:8px; border:none; background:rgba(239,68,68,.9); color:#fff;
+  cursor:pointer; font-size:14px; font-weight:700; line-height:1;
+}
+.del-btn:hover{background:#ef4444}
+.badge{
+  position:absolute; top:8px; left:8px; padding:3px 9px; border-radius:20px;
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.4px;
+}
+.badge.pending{background:rgba(245,158,11,.9); color:#1a1200}
+.badge.approved{background:rgba(34,197,94,.9); color:#04180c}
+.badge.rejected{background:rgba(239,68,68,.9); color:#fff}
+.empty{
+  grid-column:1/-1; text-align:center; padding:50px 20px;
+  color:var(--muted); border:1px dashed var(--border); border-radius:14px;
+}
+
+/* ---------- DEV PANEL ---------- */
+.devbar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:12px 16px; margin-bottom:22px; border-radius:12px;
+  background:linear-gradient(90deg,rgba(108,92,231,.18),rgba(108,92,231,.05));
+  border:1px solid rgba(108,92,231,.35); font-size:14px; font-weight:600;
+}
+.devbar .spacer{flex:1}
+h2.sec{margin:30px 0 14px; font-size:18px; letter-spacing:-.3px}
+.list{display:flex; flex-direction:column; gap:10px}
+.row{
+  display:flex; align-items:center; gap:14px; padding:12px 14px;
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+}
+.row .thumb{
+  width:52px; height:52px; border-radius:9px; flex-shrink:0;
+  background:linear-gradient(135deg,#2a2f45,#1b202b); background-size:cover;
+  background-position:center; display:flex; align-items:center; justify-content:center;
+  font-weight:800; color:#4b5473;
+}
+.row .info{flex:1; min-width:0}
+.row .info b{display:block; font-size:14.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.row .info span{font-size:12.5px; color:var(--muted)}
+.row .acts{display:flex; gap:7px; flex-wrap:wrap}
+
+/* ---------- MODAL ---------- */
+.overlay{
+  position:fixed; inset:0; background:rgba(5,6,10,.78); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center; padding:20px; z-index:200;
+  animation:fade .15s ease;
+}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.modal{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:28px;width:100%;max-width:420px;animation:pop .2s ease;box-shadow:0 24px 70px rgba(0,0,0,.6)}
-@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
-.toasts{position:fixed;bottom:22px;right:22px;z-index:300;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
-.toast{background:var(--bg3);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:11px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);transition:.3s;max-width:330px;animation:slideIn .25s ease}
-@keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
-.toast.ok{border-left-color:var(--ok)}.toast.err{border-left-color:var(--err)}.toast.warn{border-left-color:var(--warn)}
-.notice{background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.35);color:#b6adff;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:20px}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:760px){.top-in{height:auto;padding:12px 0;flex-wrap:wrap}.search{order:3;max-width:none;flex-basis:100%}.nav{margin-left:0}.hero{padding:26px 20px}.hero h1{font-size:26px}.dev-item{flex-direction:column}.dev-item-actions{justify-content:flex-start}}
+.modal{
+  background:var(--panel); border:1px solid var(--border); border-radius:16px;
+  padding:24px; width:100%; max-width:420px; max-height:90vh; overflow-y:auto;
+  animation:pop .18s cubic-bezier(.2,.9,.3,1.3);
+}
+@keyframes pop{from{transform:scale(.94); opacity:0}to{transform:scale(1); opacity:1}}
+.modal.wide{max-width:1000px; padding:16px}
+.modal h2{margin:0 0 18px; font-size:20px; letter-spacing:-.4px}
+.form{display:flex; flex-direction:column; gap:13px}
+.form label{display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted); font-weight:600}
+.form input,.form textarea{
+  padding:10px 13px; border-radius:10px; background:var(--bg);
+  border:1px solid var(--border); color:var(--text); outline:none; font-size:14px;
+}
+.form input:focus,.form textarea:focus{border-color:var(--accent)}
+.form textarea{resize:vertical; min-height:70px}
+.form input[type=file]{padding:8px; font-size:13px}
+.err{color:#ff8f8f; font-size:13px; min-height:16px}
+.tabs{display:flex; gap:6px; margin-bottom:16px; background:var(--bg); padding:4px; border-radius:10px}
+.tab{
+  flex:1; padding:8px; border-radius:8px; border:none; background:transparent;
+  color:var(--muted); cursor:pointer; font-size:14px; font-weight:600;
+}
+.tab.active{background:var(--accent); color:#fff}
+
+/* ---------- PLAYER ---------- */
+.play-head{display:flex; align-items:center; gap:12px; margin-bottom:12px}
+.play-head h3{margin:0; font-size:16px; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.game-frame{
+  width:100%; height:min(76vh,700px); border:none; border-radius:12px;
+  background:#000; display:block;
+}
+
+/* ---------- TOASTS ---------- */
+#toasts{position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:999; display:flex; flex-direction:column; gap:9px; align-items:center}
+.toast{
+  padding:11px 20px; border-radius:11px; background:var(--card);
+  border:1px solid var(--border); font-size:14px; font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,.5); animation:pop .2s ease;
+}
+.toast.ok{border-color:rgba(34,197,94,.5); color:#7ee2a8}
+.toast.err{border-color:rgba(239,68,68,.5); color:#ff8f8f}
+
+.user-chip{
+  display:flex; align-items:center; gap:9px; padding:5px 6px 5px 12px;
+  background:var(--panel); border:1px solid var(--border); border-radius:11px;
+}
+.avatar{
+  width:29px; height:29px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#6c5ce7,#a29bfe); font-weight:800; font-size:13px; color:#fff;
+}
+@media(max-width:640px){
+  .hero h1{font-size:25px}
+  .search{max-width:none}
+  .topbar{flex-wrap:wrap; gap:9px}
+  .top-actions{width:100%; margin-left:0}
+}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap top-in">
-    <a class="logo" href="#" onclick="go('catalog');return false">
-      <span class="logo-mark">🎮</span> Game<span class="grad">Hub</span>
-    </a>
-    <div class="search">
-      <input id="searchInput" placeholder="Поиск игр..." oninput="onSearch(this.value)">
-    </div>
-    <nav class="nav" id="nav"></nav>
-  </div>
+<header class="topbar">
+  <div class="logo" data-action="go-catalog">🎮 GameHub</div>
+  <input class="search" id="search" placeholder="Поиск игр..." autocomplete="off">
+  <div class="top-actions" id="topActions"></div>
 </header>
 
-<main class="wrap" id="app"></main>
-<div class="toasts" id="toasts"></div>
+<main id="app"></main>
 <div id="modalRoot"></div>
+<div id="toasts"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* =========================================================
-   ⚠️ ВПИШИ СВОИ ДАННЫЕ ИЗ SUPABASE (Project Settings → API)
-   ========================================================= */
-const SUPABASE_URL      = 'https://ВСТАВЬ_СВОЙ_URL.supabase.co';
-const SUPABASE_ANON_KEY = 'ВСТАВЬ_СВОЙ_ANON_KEY';
+/* =====================================================================
+   НАСТРОЙКИ
+   ===================================================================== */
+const DEV_PASSWORD = '1210002341';   // пароль для входа в режим разработчика
+const SESSION_KEY  = 'gh_session';
+const DEV_KEY      = 'gh_dev';
 
-const DEV_PASSWORD   = '1210002341';
-const MAX_HTML_SIZE  = 3 * 1024 * 1024;
-const MAX_COVER_SIZE = 400 * 1024;
+/* =====================================================================
+   IndexedDB
+   ===================================================================== */
+let db = null;
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+function openDB(){
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('gamehub', 1);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('users')) d.createObjectStore('users', { keyPath:'username' });
+      if (!d.objectStoreNames.contains('games')) d.createObjectStore('games', { keyPath:'id' });
+    };
+    req.onsuccess = e => { db = e.target.result; resolve(); };
+    req.onerror  = e => reject(e.target.error);
+  });
+}
+const _st  = (n,m) => db.transaction(n,m).objectStore(n);
+const dbPut = (n,v) => new Promise((res,rej)=>{ const r=_st(n,'readwrite').put(v); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
+const dbGet = (n,k) => new Promise((res,rej)=>{ const r=_st(n,'readonly').get(k);  r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
+const dbAll = (n)   => new Promise((res,rej)=>{ const r=_st(n,'readonly').getAll();r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
+const dbDel = (n,k) => new Promise((res,rej)=>{ const r=_st(n,'readwrite').delete(k); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); });
 
-/* ---------- состояние ---------- */
+/* =====================================================================
+   СОСТОЯНИЕ
+   ===================================================================== */
 const state = {
-  user:    null,   // { id, email, username, is_dev }
-  games:   [],
-  view:    'catalog',
-  current: null,
-  search:  '',
-  devTab:  'pending',
-  authTab: 'login',
-  ready:   false
+  user: null,        // {username, passHash, createdAt}
+  isDev: false,
+  games: [],
+  users: [],
+  search: '',
+  view: 'catalog'    // 'catalog' | 'dev'
 };
 
-let currentGameHtml = '';
+let activeURLs = [];   // objectURL'ы для обложек (чистятся при ре-рендере)
+function objURL(blob){ const u = URL.createObjectURL(blob); activeURLs.push(u); return u; }
+function revokeURLs(){ activeURLs.forEach(u => { try{URL.revokeObjectURL(u)}catch(e){} }); activeURLs = []; }
 
-/* ---------- утилиты ---------- */
-function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function fmtDate(ts){return new Date(ts).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function plural(n,one,few,many){const m10=n%10,m100=n%100;if(m10===1&&m100!==11)return one;if(m10>=2&&m10<=4&&(m100<10||m100>=20))return few;return many;}
-function usernameToEmail(u){return u.toLowerCase().trim()+'@gamehub.local';}
-
-function toast(msg,type){
-  type=type||'ok';
-  const box=document.getElementById('toasts');
-  const t=document.createElement('div');
-  t.className='toast '+type;t.textContent=msg;
-  box.appendChild(t);
-  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(24px)';setTimeout(()=>t.remove(),320);},2700);
+/* =====================================================================
+   УТИЛИТЫ
+   ===================================================================== */
+function esc(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => (
+    {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+  ));
 }
-function openModal(html){
-  document.getElementById('modalRoot').innerHTML=
-    '<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="modal">'+html+'</div></div>';
+function uid(){
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'id_' + Date.now().toString(36) + Math.random().toString(36).slice(2,10);
 }
-function closeModal(){document.getElementById('modalRoot').innerHTML='';}
+async function sha256(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+async function hashPass(s){
+  if (window.crypto && crypto.subtle) {
+    try { return await sha256(s); } catch(e){}
+  }
+  let h = 0;
+  for (let i=0;i<s.length;i++) h = (h*31 + s.charCodeAt(i)) | 0;
+  return 'fb' + Math.abs(h).toString(16);
+}
+function fmtDate(ts){
+  return new Date(ts).toLocaleDateString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric'});
+}
+function toast(msg, type=''){
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = '.3s'; setTimeout(()=>t.remove(), 300); }, 2600);
+}
+const statusLabel = s => ({pending:'На модерации', approved:'Одобрено', rejected:'Отклонено'}[s] || s);
 
-/* =========================================================
-   ЗАГРУЗКА ДАННЫХ ИЗ SUPABASE
-   ========================================================= */
+/* =====================================================================
+   МОДАЛКИ
+   ===================================================================== */
+function openModal(html, opts = {}){
+  const root = document.getElementById('modalRoot');
+  const ov = document.createElement('div');
+  ov.className = 'overlay';
+  ov.innerHTML = `<div class="modal ${opts.wide ? 'wide' : ''}">${html}</div>`;
+  ov.addEventListener('mousedown', e => {
+    if (e.target === ov && opts.closable !== false) closeModal(ov);
+  });
+  root.appendChild(ov);
+  document.body.style.overflow = 'hidden';
+  return ov;
+}
+function closeModal(ov){
+  if (!ov) return;
+  if (ov._url) { try{ URL.revokeObjectURL(ov._url); }catch(e){} }
+  ov.remove();
+  if (!document.querySelector('.overlay')) document.body.style.overflow = '';
+}
+function closeAllModals(){
+  document.querySelectorAll('.overlay').forEach(closeModal);
+}
+
+/* =====================================================================
+   ЗАГРУЗКА ДАННЫХ
+   ===================================================================== */
 async function loadGames(){
-  const { data, error } = await sb.from('games').select('*').order('created_at',{ascending:false});
-  if (error){ console.error(error); toast('Ошибка загрузки игр','err'); return; }
-  state.games = data || [];
+  state.games = (await dbAll('games')).sort((a,b) => b.createdAt - a.createdAt);
+}
+async function loadUsers(){
+  state.users = await dbAll('users');
 }
 
-async function loadProfile(userId){
-  const { data } = await sb.from('profiles').select('*').eq('id',userId).single();
-  return data;
-}
-
-async function refreshUser(){
-  const { data:{ session } } = await sb.auth.getSession();
-  if (!session){
-    state.user = null;
-    return;
+/* =====================================================================
+   РЕНДЕР
+   ===================================================================== */
+function render(){
+  revokeURLs();
+  renderTopActions();
+  const app = document.getElementById('app');
+  if (state.view === 'dev' && state.isDev) {
+    app.innerHTML = devPanelHTML();
+  } else {
+    app.innerHTML = catalogHTML();
   }
-  const profile = await loadProfile(session.user.id);
-  state.user = {
-    id: session.user.id,
-    email: session.user.email,
-    username: profile ? profile.username : session.user.email.split('@')[0],
-    is_dev: profile ? profile.is_dev : false
-  };
 }
 
-/* =========================================================
-   ПРОГРЕСС
-   ========================================================= */
-async function hasProgress(gameId){
-  if (!state.user) return false;
-  const { data } = await sb.from('progress').select('game_id').eq('user_id',state.user.id).eq('game_id',gameId).maybeSingle();
-  return !!data;
-}
-
-async function loadProgress(gameId){
-  if (!state.user) return null;
-  const { data } = await sb.from('progress').select('data').eq('user_id',state.user.id).eq('game_id',gameId).maybeSingle();
-  return data ? data.data : null;
-}
-
-async function saveProgress(gameId, value){
-  if (!state.user) return false;
-  const { error } = await sb.from('progress').upsert({
-    user_id: state.user.id, game_id: gameId, data: value, updated_at: new Date().toISOString()
-  }, { onConflict: 'user_id,game_id' });
-  return !error;
-}
-
-async function resetProgressDb(gameId){
-  if (!state.user) return false;
-  const { error } = await sb.from('progress').delete().eq('user_id',state.user.id).eq('game_id',gameId);
-  return !error;
-}
-
-/* =========================================================
-   API ДЛЯ ИГР (postMessage)
-   ========================================================= */
-window.addEventListener('message', async (e) => {
-  const m = e.data;
-  if (!m || m.source !== 'gamehub') return;
-  if (m.gameId && m.gameId !== state.current) return;
-
-  const frame = document.getElementById('gameFrame');
-  if (!frame || e.source !== frame.contentWindow) return;
-
-  if (m.type === 'load'){
-    const data = state.user ? await loadProgress(state.current) : null;
-    try{ e.source.postMessage({source:'gamehub-parent',type:'progress',cbId:m.cbId,data:data},'*'); }catch(_){}
-    return;
+function renderTopActions(){
+  const el = document.getElementById('topActions');
+  if (state.user) {
+    el.innerHTML = `
+      <button class="btn btn-primary" data-action="open-upload">+ Загрузить</button>
+      <div class="user-chip">
+        <div class="avatar">${esc(state.user.username[0].toUpperCase())}</div>
+        <span style="font-size:13.5px;font-weight:700">${esc(state.user.username)}</span>
+        <button class="btn btn-sm" data-action="my-games">Мои игры</button>
+        ${state.isDev
+          ? `<button class="btn btn-sm" data-action="go-dev">Админка</button>`
+          : `<button class="btn btn-sm" data-action="dev-login">Разработчик</button>`}
+        <button class="btn btn-sm btn-danger" data-action="logout">Выйти</button>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <button class="btn" data-action="open-auth" data-mode="login">Войти</button>
+      <button class="btn btn-primary" data-action="open-auth" data-mode="reg">Регистрация</button>`;
   }
-  if (m.type === 'save' && state.user){
-    await saveProgress(state.current, m.data);
-    updateProgressBar(true);
-  } else if (m.type === 'reset' && state.user){
-    await resetProgressDb(state.current);
-    updateProgressBar(false);
-    toast('Прогресс сброшен','warn');
+}
+
+function catalogHTML(){
+  const q = state.search.trim().toLowerCase();
+  const games = state.games.filter(g => {
+    if (!state.isDev && g.status !== 'approved') return false;
+    if (!q) return true;
+    return (g.title || '').toLowerCase().includes(q) || (g.author || '').toLowerCase().includes(q);
+  });
+
+  return `
+    <section class="hero">
+      <h1>Играй в HTML-игры</h1>
+      <p>Загружай свои игры и делись ими с другими</p>
+    </section>
+    ${state.isDev ? `<div class="devbar">🛠 Режим разработчика активен <div class="spacer"></div>
+        <button class="btn btn-sm btn-primary" data-action="go-dev">Панель управления</button>
+        <button class="btn btn-sm btn-danger" data-action="exit-dev">Выйти из режима</button></div>` : ''}
+    <div class="grid">
+      ${games.length
+        ? games.map(cardHTML).join('')
+        : `<div class="empty">${q ? 'Ничего не найдено' : (state.isDev ? 'Игр пока нет' : 'Пока нет игр. Стань первым!')}</div>`}
+    </div>`;
+}
+
+function cardHTML(g){
+  const cover = g.coverBlob
+    ? `style="background-image:url('${objURL(g.coverBlob)}')"`
+    : '';
+  const letter = esc((g.title || '?').trim()[0].toUpperCase());
+  return `
+  <article class="card" data-action="play" data-id="${g.id}">
+    <div class="cover" ${cover}>${g.coverBlob ? '' : `<span>${letter}</span>`}
+      ${state.isDev ? `<span class="badge ${g.status}">${statusLabel(g.status)}</span>` : ''}
+    </div>
+    <div class="card-body">
+      <h3>${esc(g.title)}</h3>
+      <div class="meta">${esc(g.author)} · ${g.plays || 0} игр</div>
+    </div>
+    ${state.isDev ? `<button class="del-btn" data-action="delete" data-id="${g.id}" title="Удалить">✕</button>` : ''}
+  </article>`;
+}
+
+function devPanelHTML(){
+  const pending  = state.games.filter(g => g.status === 'pending');
+  const approved = state.games.filter(g => g.status === 'approved');
+  const rejected = state.games.filter(g => g.status === 'rejected');
+
+  return `
+  <div class="devbar">
+    🛠 Режим разработчика
+    <div class="spacer"></div>
+    <button class="btn btn-sm" data-action="go-catalog">← В каталог</button>
+    <button class="btn btn-sm btn-danger" data-action="exit-dev">Выйти из режима</button>
+  </div>
+
+  <h2 class="sec">⏳ На модерации (${pending.length})</h2>
+  <div class="list">
+    ${pending.length ? pending.map(modRowHTML).join('') : '<div class="empty">Нет заявок на модерацию</div>'}
+  </div>
+
+  <h2 class="sec">✅ Одобренные игры (${approved.length})</h2>
+  <div class="list">
+    ${approved.length ? approved.map(adminRowHTML).join('') : '<div class="empty">Пусто</div>'}
+  </div>
+
+  <h2 class="sec">❌ Отклонённые (${rejected.length})</h2>
+  <div class="list">
+    ${rejected.length ? rejected.map(adminRowHTML).join('') : '<div class="empty">Пусто</div>'}
+  </div>
+
+  <h2 class="sec">👥 Пользователи (${state.users.length})</h2>
+  <div class="list">
+    ${state.users.length ? state.users.map(u => `
+      <div class="row">
+        <div class="thumb">${esc(u.username[0].toUpperCase())}</div>
+        <div class="info">
+          <b>${esc(u.username)}</b>
+          <span>Зарегистрирован ${fmtDate(u.createdAt)} · Игр: ${state.games.filter(g=>g.author===u.username).length}</span>
+        </div>
+        <div class="acts">
+          <button class="btn btn-sm btn-danger" data-action="del-user" data-user="${esc(u.username)}">Удалить</button>
+        </div>
+      </div>`).join('') : '<div class="empty">Пользователей нет</div>'}
+  </div>`;
+}
+
+function modRowHTML(g){
+  const thumb = g.coverBlob
+    ? `style="background-image:url('${objURL(g.coverBlob)}')"`
+    : '';
+  return `
+  <div class="row">
+    <div class="thumb" ${thumb}>${g.coverBlob ? '' : esc((g.title||'?')[0].toUpperCase())}</div>
+    <div class="info">
+      <b>${esc(g.title)}</b>
+      <span>Автор: ${esc(g.author)} · ${fmtDate(g.createdAt)}</span>
+    </div>
+    <div class="acts">
+      <button class="btn btn-sm btn-green"  data-action="approve" data-id="${g.id}">✓ Принять</button>
+      <button class="btn btn-sm btn-danger" data-action="reject"  data-id="${g.id}">✕ Отклонить</button>
+      <button class="btn btn-sm"            data-action="play"    data-id="${g.id}">▶ Играть</button>
+      <button class="btn btn-sm btn-danger" data-action="delete"  data-id="${g.id}">🗑 Удалить</button>
+    </div>
+  </div>`;
+}
+
+function adminRowHTML(g){
+  const thumb = g.coverBlob
+    ? `style="background-image:url('${objURL(g.coverBlob)}')"`
+    : '';
+  return `
+  <div class="row">
+    <div class="thumb" ${thumb}>${g.coverBlob ? '' : esc((g.title||'?')[0].toUpperCase())}</div>
+    <div class="info">
+      <b>${esc(g.title)}</b>
+      <span>Автор: ${esc(g.author)} · ${fmtDate(g.createdAt)} · ${g.plays || 0} запусков · ${statusLabel(g.status)}</span>
+    </div>
+    <div class="acts">
+      <button class="btn btn-sm"            data-action="play"   data-id="${g.id}">▶ Играть</button>
+      ${g.status === 'rejected' ? `<button class="btn btn-sm btn-green" data-action="approve" data-id="${g.id}">✓ Одобрить</button>` : ''}
+      <button class="btn btn-sm btn-danger" data-action="delete" data-id="${g.id}">🗑 Удалить</button>
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   ДЕЙСТВИЯ
+   ===================================================================== */
+document.addEventListener('click', async (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const a = el.dataset.action;
+  const id = el.dataset.id;
+
+  switch (a) {
+
+    /* --- навигация --- */
+    case 'go-catalog':
+      state.view = 'catalog';
+      render();
+      break;
+
+    case 'go-dev':
+      if (!state.isDev) { toast('Нет доступа', 'err'); return; }
+      state.view = 'dev';
+      await loadUsers();
+      render();
+      break;
+
+    case 'dev-login':
+      openDevLogin();
+      break;
+
+    case 'exit-dev':
+      state.isDev = false;
+      state.view = 'catalog';
+      sessionStorage.removeItem(DEV_KEY);
+      render();
+      toast('Вы вышли из режима разработчика');
+      break;
+
+    /* --- авторизация --- */
+    case 'open-auth':
+      openAuth(el.dataset.mode);
+      break;
+
+    case 'auth-tab':
+      closeAllModals();
+      openAuth(el.dataset.mode);
+      break;
+
+    case 'logout':
+      state.user = null;
+      localStorage.removeItem(SESSION_KEY);
+      state.view = 'catalog';
+      render();
+      toast('Вы вышли из аккаунта');
+      break;
+
+    case 'my-games':
+      openMyGames();
+      break;
+
+    case 'open-upload':
+      openUpload();
+      break;
+
+    /* --- модерация --- */
+    case 'approve': {
+      const g = await dbGet('games', id);
+      if (g) { g.status = 'approved'; await dbPut('games', g); await loadGames(); render(); toast('Игра одобрена', 'ok'); }
+      break;
+    }
+    case 'reject': {
+      const g = await dbGet('games', id);
+      if (g) { g.status = 'rejected'; await dbPut('games', g); await loadGames(); render(); toast('Игра отклонена'); }
+      break;
+    }
+    case 'delete': {
+      if (!state.isDev) { toast('Только для разработчика', 'err'); return; }
+      const g = await dbGet('games', id);
+      if (!g) return;
+      if (!confirm(`Удалить игру «${g.title}» навсегда?`)) return;
+      await dbDel('games', id);
+      await loadGames();
+      render();
+      toast('Игра удалена');
+      break;
+    }
+    case 'del-user': {
+      const uname = el.dataset.user;
+      if (!confirm(`Удалить пользователя «${uname}»?`)) return;
+      await dbDel('users', uname);
+      await loadUsers();
+      render();
+      toast('Пользователь удалён');
+      break;
+    }
+
+    /* --- игра --- */
+    case 'play':
+      playGame(id);
+      break;
+
+    case 'close-modal': {
+      const ov = el.closest('.overlay');
+      closeModal(ov);
+      break;
+    }
   }
 });
 
-function updateProgressBar(saved){
-  const bar = document.getElementById('progressBar');
-  if (!bar || !state.user) return;
-  bar.classList.add('flash');
-  setTimeout(()=>bar.classList.remove('flash'),800);
-  const st = bar.querySelector('.status');
-  if (st) st.textContent = saved ? '✅ Прогресс сохранён.' : 'ℹ️ Прогресс пуст — начните играть!';
-}
-
-/* Внедряем API-скрипт в HTML игры */
-function buildGameSrc(html, userId, gameId){
-  const api =
-    '<scr'+'ipt>(function(){' +
-      'var U='+JSON.stringify(userId)+',G='+JSON.stringify(gameId)+',c=0,p={};' +
-      'window.GameHub={' +
-        'userId:U,gameId:G,isLoggedIn:!!U,' +
-        'save:function(d){if(!U)return false;try{window.parent.postMessage({source:"gamehub",type:"save",gameId:G,data:d},"*");return true;}catch(e){return false;}},' +
-        'load:function(cb){if(typeof cb!=="function")return;var id=++c;p[id]=cb;try{window.parent.postMessage({source:"gamehub",type:"load",gameId:G,cbId:id},"*");}catch(e){}},' +
-        'reset:function(){if(!U)return false;try{window.parent.postMessage({source:"gamehub",type:"reset",gameId:G},"*");return true;}catch(e){return false;}}' +
-      '};' +
-      'window.addEventListener("message",function(e){var m=e.data;if(!m||m.source!=="gamehub-parent")return;' +
-        'if(m.type==="progress"&&p[m.cbId]){var cb=p[m.cbId];delete p[m.cbId];cb(m.data);}});' +
-      'window.dispatchEvent(new Event("gamehub-ready"));' +
-    '<\/scr'+'ipt>';
-  let out = html;
-  if (/<head[^>]*>/i.test(out)) out = out.replace(/<head[^>]*>/i, m=>m+api);
-  else if (/<html[^>]*>/i.test(out)) out = out.replace(/<html[^>]*>/i, m=>m+'<head>'+api+'</head>');
-  else out = api + out;
-  return URL.createObjectURL(new Blob([out],{type:'text/html'}));
-}
-
-/* =========================================================
-   НАВИГАЦИЯ
-   ========================================================= */
-function go(view, param){
-  if (view==='game') state.current = param;
-  state.view = view;
-  render();
-}
-function onSearch(v){
-  state.search = v;
-  if (state.view !== 'catalog'){ state.view='catalog'; render(); }
-  else renderCatalog(document.getElementById('app'));
-}
-
-function renderNav(){
-  const u = state.user;
-  const nav = document.getElementById('nav');
-  const si = document.getElementById('searchInput');
-  if (si.value !== state.search) si.value = state.search;
-  let html = '<button class="btn ghost sm" onclick="go(\'catalog\')">🏠 Каталог</button>';
-  html += '<button class="btn sm" onclick="go(\'upload\')">➕ Загрузить</button>';
-  if (u){
-    if (u.is_dev) html += '<button class="btn warn sm" onclick="go(\'dev\')">🛠 Разработчик</button>';
-    html += '<button class="btn ghost sm" onclick="go(\'profile\')">👤 '+esc(u.username)+'</button>';
-  } else {
-    html += '<button class="btn ghost sm" onclick="go(\'auth\')">Войти</button>';
+/* Закрытие по Escape */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const ovs = document.querySelectorAll('.overlay');
+    if (ovs.length) closeModal(ovs[ovs.length - 1]);
   }
-  nav.innerHTML = html;
-}
+});
 
-async function render(){
-  const app = document.getElementById('app');
-  if (!state.ready){ app.innerHTML='<div class="empty"><span class="spinner"></span> Загрузка...</div>'; return; }
-  renderNav();
-  switch (state.view){
-    case 'catalog': await renderCatalog(app); break;
-    case 'game':    await renderGame(app);    break;
-    case 'upload':  renderUpload(app);        break;
-    case 'auth':    renderAuth(app);          break;
-    case 'profile': await renderProfile(app); break;
-    case 'dev':     await renderDev(app);     break;
-    default:        await renderCatalog(app);
-  }
-  window.scrollTo(0,0);
-}
+/* Поиск */
+document.getElementById('search').addEventListener('input', e => {
+  state.search = e.target.value;
+  if (state.view === 'catalog') render();
+});
 
-/* =========================================================
-   КАТАЛОГ
-   ========================================================= */
-async function renderCatalog(app){
-  const q = (state.search||'').trim().toLowerCase();
-  let list = state.games.filter(g => g.status==='approved');
-  if (q) list = list.filter(g => g.title.toLowerCase().includes(q) || g.author_name.toLowerCase().includes(q));
-
-  // Загружаем прогресс для отображения значка 💾
-  const savedIds = new Set();
-  if (state.user){
-    const { data } = await sb.from('progress').select('game_id').eq('user_id', state.user.id);
-    (data||[]).forEach(r => savedIds.add(r.game_id));
-  }
-
-  const cards = list.map(g => {
-    const cover = g.cover_url ? '<img src="'+g.cover_url+'" alt="">' : esc((g.title[0]||'?').toUpperCase());
-    const saved = savedIds.has(g.id) ? '<span class="saved">💾</span>' : '';
-    return '<div class="card" onclick="openGame(\''+g.id+'\')">' +
-      '<div class="cover">'+cover+'</div>' +
-      '<div class="card-body">' +
-        '<div class="card-title">'+esc(g.title)+'</div>' +
-        '<div class="card-meta"><span>'+esc(g.author_name)+'</span><span>'+saved+' 🎮 '+(g.plays||0)+'</span></div>' +
-      '</div></div>';
-  }).join('');
-
-  app.innerHTML =
-    '<div class="hero">' +
-      '<h1>Играй в <span class="grad">HTML-игры</span></h1>' +
-      '<p>Публикуй свои игры и играй в игры других — всё в браузере. Прогресс сохраняется в аккаунте и доступен с любого устройства.</p>' +
-      '<button class="btn" onclick="go(\'upload\')">➕ Загрузить свою игру</button>' +
-    '</div>' +
-    (state.user ? '' :
-      '<div class="notice">🔐 <b>Войдите в аккаунт</b>, чтобы прогресс сохранялся и был доступен с любого устройства. ' +
-        '<a href="#" onclick="go(\'auth\');return false" style="color:#a89bff;text-decoration:underline">Войти или зарегистрироваться →</a></div>') +
-    '<div class="sec-head"><h2>'+(q?'Результаты поиска':'Все игры')+'</h2>' +
-      '<span class="muted">'+list.length+' '+plural(list.length,'игра','игры','игр')+'</span></div>' +
-    (list.length ? '<div class="grid">'+cards+'</div>'
-                 : '<div class="empty">😕 '+(q?'Ничего не найдено':'Игр пока нет — стань первым!')+'</div>');
-}
-
-/* =========================================================
-   ИГРА
-   ========================================================= */
-async function openGame(id){
-  const g = state.games.find(x=>x.id===id);
-  if (!g) return toast('Игра не найдена','err');
-  // +1 к проcмотрам (не критично если не получится)
-  sb.from('games').update({plays:(g.plays||0)+1}).eq('id',id).then(()=>{});
-  go('game', id);
-}
-
-async function renderGame(app){
-  const g = state.games.find(x=>x.id===state.current);
-  if (!g){ state.view='catalog'; return render(); }
-
-  const u = state.user;
-  const hasProg = u ? await hasProgress(g.id) : false;
-
-  app.innerHTML =
-    '<button class="btn ghost sm" onclick="go(\'catalog\')">← Назад в каталог</button>' +
-    '<div class="game-head"><div><h1>'+esc(g.title)+'</h1>' +
-      '<div class="muted">от <b>'+esc(g.author_name)+'</b> · '+(g.plays||0)+' запусков · '+fmtDate(g.created_at)+'</div></div></div>' +
-    '<div class="game-frame" id="frameBox">' +
-      '<iframe id="gameFrame" sandbox="allow-scripts allow-pointer-lock allow-forms allow-modals allow-popups allow-orientation-lock"></iframe>' +
-    '</div>' +
-    '<div class="game-actions">' +
-      '<button class="btn ghost" onclick="restartGame()">🔄 Перезапустить</button>' +
-      '<button class="btn ghost" onclick="toggleFs()">⛶ На весь экран</button>' +
-      (hasProg && u ? '<button class="btn err" onclick="confirmResetProgress(\''+g.id+'\')">🗑 Сбросить прогресс</button>' : '') +
-    '</div>' +
-    (u
-      ? '<div class="progress-bar" id="progressBar"><span class="icon">💾</span>' +
-          '<div class="txt"><b>'+esc(u.username)+'</b>, прогресс сохраняется в аккаунте. ' +
-          '<span class="status">'+(hasProg?'✅ У вас есть сохранённые данные.':'Пока пусто — начните играть!')+'</span>' +
-          (u.is_dev?'<div class="muted" style="font-size:12px;margin-top:5px">API: <code>GameHub.save(obj)</code> · <code>GameHub.load(cb)</code> · <code>GameHub.reset()</code></div>':'') +
-          '</div></div>'
-      : '<div class="progress-bar guest"><span class="icon">⚠️</span>' +
-          '<div class="txt"><b>Вы не вошли в аккаунт.</b> Прогресс не будет сохраняться. ' +
-          '<a href="#" onclick="go(\'auth\');return false" style="color:#a89bff;text-decoration:underline">Войти →</a></div></div>') +
-    (g.description ? '<p class="desc">'+esc(g.description)+'</p>' : '');
-
-  // Загружаем HTML и создаём blob-url
-  const res = await fetch(g.html_url);
-  const html = await res.text();
-  currentGameHtml = html;
-  const frame = document.getElementById('gameFrame');
-  if (frame) frame.src = buildGameSrc(html, u?u.id:null, g.id);
-}
-
-async function restartGame(){
-  const g = state.games.find(x=>x.id===state.current);
-  if (!g) return;
-  const res = await fetch(g.html_url);
-  const html = await res.text();
-  const frame = document.getElementById('gameFrame');
-  if (frame) frame.src = buildGameSrc(html, state.user?state.user.id:null, g.id);
-}
-
-function toggleFs(){
-  const box=document.getElementById('frameBox');
-  if (!box) return;
-  if (document.fullscreenElement) document.exitFullscreen();
-  else if (box.requestFullscreen) box.requestFullscreen();
-}
-
-async function confirmResetProgress(gameId){
-  if (!state.user) return;
-  if (!confirm('Сбросить весь сохранённый прогресс для этой игры?')) return;
-  await resetProgressDb(gameId);
-  toast('Прогресс сброшен','warn');
-  await renderGame(document.getElementById('app'));
-}
-
-/* =========================================================
+/* =====================================================================
    АВТОРИЗАЦИЯ
-   ========================================================= */
-function renderAuth(app, notice){
-  app.innerHTML =
-    '<div class="auth-wrap"><div class="auth">' +
-      (notice ? '<div class="notice">'+esc(notice)+'</div>' : '') +
-      '<div class="tabs">' +
-        '<button class="'+(state.authTab==='login'?'active':'')+'" onclick="setAuthTab(\'login\')">Вход</button>' +
-        '<button class="'+(state.authTab==='register'?'active':'')+'" onclick="setAuthTab(\'register\')">Регистрация</button>' +
-      '</div>' +
-      '<label>Логин</label>' +
-      '<input class="inp" id="auLogin" placeholder="Ваш логин" autocomplete="username">' +
-      '<label>Пароль</label>' +
-      '<input class="inp" id="auPass" type="password" placeholder="Минимум 6 символов" autocomplete="current-password" ' +
-        'onkeydown="if(event.key===\'Enter\')doAuth()">' +
-      '<button class="btn" id="auBtn" style="width:100%;justify-content:center" onclick="doAuth()">' +
-        (state.authTab==='login'?'Войти':'Создать аккаунт') +
-      '</button>' +
-      '<p class="muted" style="margin:16px 0 0;text-align:center;font-size:13px">' +
-        'Аккаунт общий для всех посетителей сайта. Один логин — один аккаунт.' +
-      '</p>' +
-    '</div></div>';
-}
-function setAuthTab(t){ state.authTab=t; renderAuth(document.getElementById('app')); }
+   ===================================================================== */
+function openAuth(mode = 'login'){
+  const ov = openModal(`
+    <h2>${mode === 'login' ? 'Вход в аккаунт' : 'Создать аккаунт'}</h2>
+    <div class="tabs">
+      <button class="tab ${mode==='login'?'active':''}" data-action="auth-tab" data-mode="login">Вход</button>
+      <button class="tab ${mode==='reg'?'active':''}"   data-action="auth-tab" data-mode="reg">Регистрация</button>
+    </div>
+    <form class="form" id="authForm" autocomplete="off">
+      <label>Имя пользователя
+        <input id="auName" required minlength="3" maxlength="20" placeholder="например, player123">
+      </label>
+      <label>Пароль
+        <input id="auPass" type="password" required minlength="4" placeholder="минимум 4 символа">
+      </label>
+      <div class="err" id="auErr"></div>
+      <button class="btn btn-primary" type="submit">
+        ${mode === 'login' ? 'Войти' : 'Создать аккаунт'}
+      </button>
+    </form>
+  `);
 
-async function doAuth(){
-  const login = document.getElementById('auLogin').value.trim();
-  const pass  = document.getElementById('auPass').value;
-  const btn   = document.getElementById('auBtn');
+  ov.querySelector('#authForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const name = ov.querySelector('#auName').value.trim();
+    const pass = ov.querySelector('#auPass').value;
+    const errEl = ov.querySelector('#auErr');
+    errEl.textContent = '';
 
-  if (login.length < 3) return toast('Логин — минимум 3 символа','err');
-  if (!/^[a-zA-Z0-9_]+$/.test(login)) return toast('Только буквы, цифры и _','err');
-  if (pass.length < 6) return toast('Пароль — минимум 6 символов','err');
+    if (name.length < 3) { errEl.textContent = 'Имя минимум 3 символа'; return; }
+    if (pass.length < 4) { errEl.textContent = 'Пароль минимум 4 символа'; return; }
 
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Подожди...';
+    const hash = await hashPass(pass);
+    const existing = await dbGet('users', name);
 
-  const email = usernameToEmail(login);
-
-  if (state.authTab === 'register'){
-    const { error } = await sb.auth.signUp({
-      email, password: pass,
-      options: { data: { username: login } }
-    });
-    if (error){
-      btn.disabled=false; btn.textContent='Создать аккаунт';
-      if (/already/i.test(error.message)) return toast('Такой логин уже занят','err');
-      return toast('Ошибка: '+error.message,'err');
+    if (mode === 'reg') {
+      if (existing) { errEl.textContent = 'Такое имя уже занято'; return; }
+      const user = { username: name, passHash: hash, createdAt: Date.now() };
+      await dbPut('users', user);
+      state.user = user;
+      localStorage.setItem(SESSION_KEY, name);
+      closeModal(ov);
+      render();
+      toast(`Добро пожаловать, ${name}!`, 'ok');
+    } else {
+      if (!existing || existing.passHash !== hash) {
+        errEl.textContent = 'Неверное имя пользователя или пароль';
+        return;
+      }
+      state.user = existing;
+      localStorage.setItem(SESSION_KEY, name);
+      closeModal(ov);
+      render();
+      toast(`С возвращением, ${name}!`, 'ok');
     }
-    toast('Аккаунт создан! Добро пожаловать, '+login,'ok');
-  } else {
-    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-    if (error){
-      btn.disabled=false; btn.textContent='Войти';
-      return toast('Неверный логин или пароль','err');
-    }
-    toast('С возвращением, '+login+'!','ok');
-  }
-
-  await refreshUser();
-  await loadGames();
-  go('catalog');
-}
-
-async function logout(){
-  await sb.auth.signOut();
-  state.user = null;
-  toast('Вы вышли из аккаунта','warn');
-  go('catalog');
-}
-
-/* =========================================================
-   ЗАГРУЗКА ИГРЫ
-   ========================================================= */
-function renderUpload(app){
-  if (!state.user){
-    state.authTab='login';
-    return renderAuth(app,'Чтобы загрузить игру, войдите в аккаунт или зарегистрируйтесь.');
-  }
-  app.innerHTML =
-    '<button class="btn ghost sm" onclick="go(\'catalog\')">← В каталог</button>' +
-    '<h1 style="margin-top:18px">Загрузка игры</h1>' +
-    '<p class="muted" style="margin-bottom:24px">Загрузите один HTML-файл (все стили, скрипты и картинки должны быть внутри). Игра появится в каталоге после проверки.</p>' +
-    '<div class="panel">' +
-      '<label>Название *</label>' +
-      '<input class="inp" id="upTitle" maxlength="60" placeholder="Например: Космический шутер">' +
-      '<label>Описание</label>' +
-      '<textarea class="inp" id="upDesc" maxlength="400" placeholder="Расскажите об управлении..."></textarea>' +
-      '<label>HTML-файл * (до 3 МБ)</label>' +
-      '<input class="inp" id="upFile" type="file" accept=".html,.htm,text/html">' +
-      '<label>Обложка (до 400 КБ, необязательно)</label>' +
-      '<input class="inp" id="upCover" type="file" accept="image/*">' +
-      '<div class="notice" style="margin:4px 0 18px">' +
-        '💾 Для сохранения прогресса в игре:<br>' +
-        '<code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">GameHub.save({level: 3})</code> — сохранить<br>' +
-        '<code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">GameHub.load(function(d){ ... })</code> — загрузить<br>' +
-        '<code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">GameHub.reset()</code> — сбросить' +
-      '</div>' +
-      '<button class="btn" id="upBtn" style="width:100%;justify-content:center" onclick="submitGame()">📤 Отправить на модерацию</button>' +
-    '</div>';
-}
-
-async function submitGame(){
-  const u = state.user;
-  if (!u) return go('auth');
-
-  const title = document.getElementById('upTitle').value.trim();
-  const desc  = document.getElementById('upDesc').value.trim();
-  const file  = document.getElementById('upFile').files[0];
-  const coverF= document.getElementById('upCover').files[0];
-  const btn   = document.getElementById('upBtn');
-
-  if (title.length < 2) return toast('Введите название','err');
-  if (!file) return toast('Выберите HTML-файл','err');
-  if (file.size > MAX_HTML_SIZE) return toast('Файл больше 3 МБ','err');
-  if (coverF && coverF.size > MAX_COVER_SIZE) return toast('Обложка больше 400 КБ','err');
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Загружаю...';
-
-  // 1) Генерируем ID игры (клиентский uuid)
-  const gameId = crypto.randomUUID();
-
-  // 2) Загружаем HTML
-  const htmlPath = gameId + '.html';
-  const { error: htmlErr } = await sb.storage.from('games').upload(htmlPath, file, { contentType:'text/html', upsert:false });
-  if (htmlErr){ btn.disabled=false; btn.textContent='📤 Отправить на модерацию'; return toast('Ошибка загрузки HTML: '+htmlErr.message,'err'); }
-  const htmlUrl = sb.storage.from('games').getPublicUrl(htmlPath).data.publicUrl;
-
-  // 3) Загружаем обложку (если есть)
-  let coverUrl = '';
-  if (coverF){
-    const ext = (coverF.name.split('.').pop() || 'jpg').toLowerCase();
-    const coverPath = gameId + '.' + ext;
-    const { error: covErr } = await sb.storage.from('covers').upload(coverPath, coverF, { contentType: coverF.type, upsert:false });
-    if (!covErr) coverUrl = sb.storage.from('covers').getPublicUrl(coverPath).data.publicUrl;
-  }
-
-  // 4) Добавляем запись в БД
-  const { error: dbErr } = await sb.from('games').insert({
-    id: gameId,
-    title, description: desc,
-    author_id: u.id, author_name: u.username,
-    status: 'pending',
-    cover_url: coverUrl,
-    html_url: htmlUrl
   });
-  if (dbErr){ btn.disabled=false; btn.textContent='📤 Отправить на модерацию'; return toast('Ошибка БД: '+dbErr.message,'err'); }
-
-  toast('Игра отправлена на модерацию ✓','ok');
-  await loadGames();
-  go('profile');
 }
 
-/* =========================================================
-   ПРОФИЛЬ
-   ========================================================= */
-async function renderProfile(app){
-  const u = state.user;
-  if (!u){ state.authTab='login'; return renderAuth(app,'Войдите в аккаунт.'); }
-
-  const my = state.games.filter(g => g.author_id === u.id);
-  const statusBadge = {
-    pending:  '<span class="badge pending">⏳ На модерации</span>',
-    approved: '<span class="badge approved">✅ Опубликована</span>',
-    rejected: '<span class="badge rejected">❌ Отклонена</span>'
-  };
-
-  app.innerHTML =
-    '<div class="panel wide" style="margin-bottom:26px"><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">' +
-      '<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#00d2ff);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800">' +
-        esc(u.username[0].toUpperCase())+'</div>' +
-      '<div style="flex:1;min-width:180px"><h2>'+esc(u.username)+' '+(u.is_dev?'<span class="badge dev">🛠 Разработчик</span>':'')+'</h2>' +
-        '<div class="muted">Своих игр: '+my.length+'</div></div>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-        (u.is_dev
-          ? '<button class="btn warn" onclick="go(\'dev\')">🛠 Панель разработчика</button>'
-          : '<button class="btn ghost" onclick="askDevPassword()">🔑 Режим разработчика</button>') +
-        '<button class="btn ghost" onclick="logout()">Выйти</button>' +
-      '</div></div></div>' +
-    '<div class="sec-head"><h2>Мои игры</h2><button class="btn sm" onclick="go(\'upload\')">➕ Загрузить ещё</button></div>' +
-    (my.length ? my.map(g =>
-      '<div class="dev-item">' +
-        '<div class="cover-mini">'+(g.cover_url?'<img src="'+g.cover_url+'">':esc((g.title[0]||'?').toUpperCase()))+'</div>' +
-        '<div class="dev-item-info"><div class="t">'+esc(g.title)+' '+(statusBadge[g.status]||'')+'</div>' +
-          '<div class="muted" style="font-size:13px">'+fmtDate(g.created_at)+' · 🎮 '+(g.plays||0)+'</div>' +
-          (g.description?'<div class="d">'+esc(g.description)+'</div>':'')+'</div>' +
-        '<div class="dev-item-actions">' +
-          (g.status==='approved'?'<button class="btn sm" onclick="openGame(\''+g.id+'\')">▶ Играть</button>':'') +
-          '<button class="btn err sm" onclick="deleteGame(\''+g.id+'\')">Удалить</button>' +
-        '</div></div>'
-    ).join('') : '<div class="empty">У вас пока нет игр</div>');
-}
-
-/* =========================================================
+/* =====================================================================
    РЕЖИМ РАЗРАБОТЧИКА
-   ========================================================= */
-function askDevPassword(){
-  if (!state.user){ toast('Сначала войдите','warn'); return go('auth'); }
-  openModal(
-    '<h3>🛠 Режим разработчика</h3>' +
-    '<p class="muted" style="margin:0 0 18px">Введите пароль.</p>' +
-    '<input class="inp" id="devPass" type="password" placeholder="Пароль" autocomplete="off" ' +
-      'onkeydown="if(event.key===\'Enter\')checkDevPass()">' +
-    '<div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Отмена</button>' +
-      '<button class="btn" onclick="checkDevPass()">Войти</button></div>');
-  setTimeout(()=>{const i=document.getElementById('devPass');if(i)i.focus();},50);
-}
-function checkDevPass(){
-  const val = (document.getElementById('devPass')||{}).value || '';
-  if (val === DEV_PASSWORD){
-    if (!state.user.is_dev){
-      toast('Пароль верный, но у аккаунта нет dev-прав в БД','err');
-      closeModal();
-      return;
+   ===================================================================== */
+function openDevLogin(){
+  const ov = openModal(`
+    <h2>🛠 Режим разработчика</h2>
+    <form class="form" id="devForm" autocomplete="off">
+      <label>Пароль разработчика
+        <input id="devPass" type="password" required placeholder="••••••••">
+      </label>
+      <div class="err" id="devErr"></div>
+      <button class="btn btn-primary" type="submit">Войти</button>
+    </form>
+  `);
+
+  ov.querySelector('#devForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const pass = ov.querySelector('#devPass').value;
+    const errEl = ov.querySelector('#devErr');
+
+    if (pass === DEV_PASSWORD) {
+      state.isDev = true;
+      state.view = 'dev';
+      sessionStorage.setItem(DEV_KEY, '1');
+      closeModal(ov);
+      await loadUsers();
+      render();
+      toast('Режим разработчика включён', 'ok');
+    } else {
+      errEl.textContent = 'Неверный пароль';
+      ov.querySelector('#devPass').value = '';
     }
-    closeModal();
-    go('dev');
-  } else {
-    toast('Неверный пароль','err');
-    const i=document.getElementById('devPass');if(i){i.value='';i.focus();}
-  }
-}
-
-async function renderDev(app){
-  if (!state.user || !state.user.is_dev){
-    if (state.user) return askDevPassword();
-    state.authTab='login';
-    return renderAuth(app,'Режим разработчика доступен только авторизованным.');
-  }
-
-  const pending  = state.games.filter(g=>g.status==='pending');
-  const approved = state.games.filter(g=>g.status==='approved');
-  const rejected = state.games.filter(g=>g.status==='rejected');
-
-  let tabs =
-    '<div class="tabs" style="max-width:560px">' +
-      '<button class="'+(state.devTab==='pending'?'active':'')+'" onclick="setDevTab(\'pending\')">⏳ Модерация ('+pending.length+')</button>' +
-      '<button class="'+(state.devTab==='all'?'active':'')+'" onclick="setDevTab(\'all\')">🎮 Все игры ('+state.games.length+')</button>' +
-    '</div>';
-
-  let body = '';
-
-  if (state.devTab === 'pending'){
-    body = pending.length ? pending.map(g =>
-      '<div class="dev-item"><div class="cover-mini">'+(g.cover_url?'<img src="'+g.cover_url+'">':esc((g.title[0]||'?').toUpperCase()))+'</div>' +
-        '<div class="dev-item-info"><div class="t">'+esc(g.title)+' <span class="badge pending">⏳</span></div>' +
-          '<div class="muted" style="font-size:13px">от <b>'+esc(g.author_name)+'</b> · '+fmtDate(g.created_at)+'</div>' +
-          (g.description?'<div class="d">'+esc(g.description)+'</div>':'')+'</div>' +
-        '<div class="dev-item-actions">' +
-          '<button class="btn ghost sm" onclick="openGame(\''+g.id+'\')">👁 Проверить</button>' +
-          '<button class="btn ok sm" onclick="approveGame(\''+g.id+'\')">✅ Принять</button>' +
-          '<button class="btn err sm" onclick="rejectGame(\''+g.id+'\')">❌ Отклонить</button>' +
-        '</div></div>'
-    ).join('') : '<div class="empty">🎉 Новых заявок нет</div>';
-  }
-
-  if (state.devTab === 'all'){
-    body = state.games.length ? state.games.map(g => {
-      const st = g.status;
-      const label = {pending:'⏳ На модерации', approved:'✅ Опубликована', rejected:'❌ Отклонена'}[st];
-      return '<div class="dev-item"><div class="cover-mini">'+(g.cover_url?'<img src="'+g.cover_url+'">':esc((g.title[0]||'?').toUpperCase()))+'</div>' +
-        '<div class="dev-item-info"><div class="t">'+esc(g.title)+' <span class="badge '+st+'">'+label+'</span></div>' +
-          '<div class="muted" style="font-size:13px">от <b>'+esc(g.author_name)+'</b> · '+fmtDate(g.created_at)+' · 🎮 '+(g.plays||0)+'</div></div>' +
-        '<div class="dev-item-actions">' +
-          (g.status==='approved'?'<button class="btn ghost sm" onclick="openGame(\''+g.id+'\')">▶</button>':'') +
-          (g.status!=='approved'?'<button class="btn ok sm" onclick="approveGame(\''+g.id+'\')">✅</button>':'') +
-          (g.status!=='rejected'?'<button class="btn warn sm" onclick="rejectGame(\''+g.id+'\')">❌</button>':'') +
-          '<button class="btn err sm" onclick="deleteGame(\''+g.id+'\')">🗑</button>' +
-        '</div></div>';
-    }).join('') : '<div class="empty">Игр нет</div>';
-  }
-
-  app.innerHTML =
-    '<div class="sec-head"><div><h1 style="margin:0">Панель разработчика</h1>' +
-      '<div class="muted">Модерация и управление играми</div></div>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-        '<span class="badge approved">Опубликовано: '+approved.length+'</span>' +
-        '<span class="badge pending">На модерации: '+pending.length+'</span>' +
-        '<span class="badge rejected">Отклонено: '+rejected.length+'</span>' +
-      '</div></div>' + tabs + body;
-}
-
-function setDevTab(t){ state.devTab=t; renderDev(document.getElementById('app')); }
-
-async function approveGame(id){
-  const { error } = await sb.from('games').update({status:'approved'}).eq('id',id);
-  if (error) return toast('Ошибка: '+error.message,'err');
-  toast('Игра опубликована ✓','ok');
-  await loadGames();
-  renderDev(document.getElementById('app'));
-}
-async function rejectGame(id){
-  const { error } = await sb.from('games').update({status:'rejected'}).eq('id',id);
-  if (error) return toast('Ошибка: '+error.message,'err');
-  toast('Игра отклонена','warn');
-  await loadGames();
-  renderDev(document.getElementById('app'));
-}
-async function deleteGame(id){
-  const g = state.games.find(x=>x.id===id);
-  if (!g) return;
-  if (g.author_id !== state.user.id && !state.user.is_dev) return toast('Нет прав','err');
-  if (!confirm('Удалить игру «'+g.title+'» навсегда?')) return;
-  // Удаляем файлы из Storage
-  try{
-    const htmlPath = g.html_url.split('/').pop();
-    await sb.storage.from('games').remove([htmlPath]);
-    if (g.cover_url){
-      const coverPath = g.cover_url.split('/').pop();
-      await sb.storage.from('covers').remove([coverPath]);
-    }
-  }catch(_){}
-  const { error } = await sb.from('games').delete().eq('id',id);
-  if (error) return toast('Ошибка: '+error.message,'err');
-  toast('Игра удалена','warn');
-  await loadGames();
-  if (state.view==='dev') renderDev(document.getElementById('app'));
-  else render();
-}
-
-/* =========================================================
-   ИНИЦИАЛИЗАЦИЯ
-   ========================================================= */
-(async function init(){
-  render(); // показываем спиннер
-  await refreshUser();
-  await loadGames();
-  state.ready = true;
-
-  // Реагируем на изменения сессии (вход/выход в другой вкладке)
-  sb.auth.onAuthStateChange(async () => {
-    await refreshUser();
-    renderNav();
   });
+}
 
+/* =====================================================================
+   ЗАГРУЗКА ИГРЫ
+   ===================================================================== */
+function openUpload(){
+  if (!state.user) { openAuth('login'); return; }
+
+  const ov = openModal(`
+    <h2>Загрузить игру</h2>
+    <form class="form" id="upForm" autocomplete="off">
+      <label>Название игры
+        <input id="upTitle" required maxlength="60" placeholder="Моя крутая игра">
+      </label>
+      <label>Описание
+        <textarea id="upDesc" maxlength="300" placeholder="Коротко о том, что это за игра..."></textarea>
+      </label>
+      <label>HTML-файл игры (.html)
+        <input id="upFile" type="file" accept=".html,.htm,text/html" required>
+      </label>
+      <label>Обложка (необязательно)
+        <input id="upCover" type="file" accept="image/*">
+      </label>
+      <div class="err" id="upErr"></div>
+      <button class="btn btn-primary" type="submit">Отправить</button>
+    </form>
+  `);
+
+  ov.querySelector('#upForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const errEl = ov.querySelector('#upErr');
+    errEl.textContent = '';
+
+    const title = ov.querySelector('#upTitle').value.trim();
+    const desc  = ov.querySelector('#upDesc').value.trim();
+    const file  = ov.querySelector('#upFile').files[0];
+    const cover = ov.querySelector('#upCover').files[0];
+
+    if (!title) { errEl.textContent = 'Введите название'; return; }
+    if (!file)  { errEl.textContent = 'Выберите HTML-файл'; return; }
+    if (file.size > 25 * 1024 * 1024) { errEl.textContent = 'Файл слишком большой (макс. 25 МБ)'; return; }
+
+    const game = {
+      id: uid(),
+      title,
+      description: desc,
+      author: state.user.username,
+      fileBlob: file,
+      fileName: file.name,
+      coverBlob: cover || null,
+      status: state.isDev ? 'approved' : 'pending',
+      createdAt: Date.now(),
+      plays: 0
+    };
+
+    try {
+      await dbPut('games', game);
+      await loadGames();
+      closeModal(ov);
+      render();
+      toast(state.isDev ? 'Игра опубликована!' : 'Игра отправлена на модерацию', 'ok');
+    } catch (err) {
+      errEl.textContent = 'Ошибка сохранения: ' + err.message;
+    }
+  });
+}
+
+/* =====================================================================
+   МОИ ИГРЫ
+   ===================================================================== */
+function openMyGames(){
+  if (!state.user) return;
+  const mine = state.games.filter(g => g.author === state.user.username);
+  openModal(`
+    <h2>Мои игры (${mine.length})</h2>
+    <div class="list">
+      ${mine.length ? mine.map(g => `
+        <div class="row">
+          <div class="thumb">${esc((g.title||'?')[0].toUpperCase())}</div>
+          <div class="info">
+            <b>${esc(g.title)}</b>
+            <span>${statusLabel(g.status)} · ${g.plays || 0} запусков</span>
+          </div>
+          <div class="acts">
+            <button class="btn btn-sm" data-action="play" data-id="${g.id}">▶</button>
+          </div>
+        </div>`).join('') : '<div class="empty">Вы ещё не загрузили ни одной игры</div>'}
+    </div>
+  `);
+}
+
+/* =====================================================================
+   ЗАПУСК ИГРЫ
+   ===================================================================== */
+async function playGame(id){
+  const g = await dbGet('games', id);
+  if (!g) { toast('Игра не найдена', 'err'); return; }
+  if (!state.isDev && g.status !== 'approved') { toast('Игра ещё не одобрена', 'err'); return; }
+
+  const url = URL.createObjectURL(g.fileBlob);
+
+  const ov = openModal(`
+    <div class="play-head">
+      <h3>${esc(g.title)}</h3>
+      <button class="btn btn-sm" data-action="close-modal">✕ Закрыть</button>
+    </div>
+    <iframe class="game-frame" src="${url}"
+      sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-popups allow-forms allow-modals allow-orientation-lock"
+      allowfullscreen></iframe>
+  `, { wide: true });
+
+  ov._url = url;
+
+  g.plays = (g.plays || 0) + 1;
+  await dbPut('games', g);
+  const inState = state.games.find(x => x.id === id);
+  if (inState) inState.plays = g.plays;
+}
+
+/* =====================================================================
+   ИНИЦИАЛИЗАЦИЯ
+   ===================================================================== */
+(async function init(){
+  try {
+    await openDB();
+  } catch (e) {
+    document.getElementById('app').innerHTML =
+      '<div class="empty">Не удалось открыть базу данных браузера.<br>Попробуйте другой браузер или режим инкогнито.</div>';
+    return;
+  }
+
+  const sess = localStorage.getItem(SESSION_KEY);
+  if (sess) {
+    const u = await dbGet('users', sess);
+    if (u) state.user = u;
+    else localStorage.removeItem(SESSION_KEY);
+  }
+
+  state.isDev = sessionStorage.getItem(DEV_KEY) === '1';
+
+  await loadGames();
+  await loadUsers();
   render();
 })();
 </script>
